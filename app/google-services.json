@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "482274652824",
+    "project_id": "hystorms-701f7",
+    "storage_bucket": "hystorms-701f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482274652824:android:7edab4dc9b2eb88f9ed6ed",
+        "android_client_info": {
+          "package_name": "org.d3ifcool.hystorms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482274652824-0darnhrpvpku4f148iuakdcse6fd9s9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUVfbxJlw0s-eqyta1e88-yssxXUdzjOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482274652824-0darnhrpvpku4f148iuakdcse6fd9s9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
