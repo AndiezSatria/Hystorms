@@ -3,10 +3,12 @@
     <color name="green_main">#FF8AD168</color>
     <color name="green_variant">#FFF0FBEB</color>
     <color name="green_on_primary">#FF41B7A0</color>
+    <color name="green_text">#FF5BD221</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green_button">#FF5BD221</color>
+    <color name="blue_text">#FF2D9CDB</color>
     <color name="cream_dialog">#FFF6F6DE</color>
 </resources>
