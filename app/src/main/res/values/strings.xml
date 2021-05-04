@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Hystorms</string>
+    <!--Auth Pages Strings-->
+    <string name="hystorms_logo">Hystorms Logo</string>
+    <string name="hystroms_text">Hystroms Text</string>
+    <string name="splash_desc">Menanam dengan Hidroponik\nmenjadi lebih asik</string>
+    <string name="text_login">Masuk</string>
+    <string name="text_register">Daftar</string>
+    <string name="register_page_title">Daftar Sekarang</string>
+    <string name="text_name">Nama</string>
+    <string name="text_email">Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_repassword">Password Ulang</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="login_page_title">Masuk dengan akun Anda</string>
+    <string name="text_forget_pass">Lupa Password</string>
+    <string name="forget_password_desc">Illustration Forget Password</string>
+    <string name="forget_password_title">Masukkan alamat Email akun Anda\nUntuk menerima email ubah password</string>
+    <string name="text_send">Kirim</string>
 </resources>
