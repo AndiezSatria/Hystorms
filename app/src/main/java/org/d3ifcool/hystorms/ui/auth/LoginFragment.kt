@@ -1,4 +1,4 @@
-package org.d3ifcool.hystorms.ui
+package org.d3ifcool.hystorms.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
