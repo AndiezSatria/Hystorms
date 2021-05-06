@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="org.d3ifcool.hystorms.ui.SplashFragment"
+        android:name="org.d3ifcool.hystorms.ui.auth.SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_registerFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="org.d3ifcool.hystorms.ui.RegisterFragment"
+        android:name="org.d3ifcool.hystorms.ui.auth.RegisterFragment"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="org.d3ifcool.hystorms.ui.LoginFragment"
+        android:name="org.d3ifcool.hystorms.ui.auth.LoginFragment"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
