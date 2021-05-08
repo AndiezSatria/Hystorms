@@ -12,5 +12,5 @@ data class User(
     var email: String,
     var photoUrl: String? = null,
     val createdAt: Date = Calendar.getInstance().time,
-    @ServerTimestamp var modifiedAt: Date
+    @ServerTimestamp var modifiedAt: Date = Calendar.getInstance().time
 ) : Serializable

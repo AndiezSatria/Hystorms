@@ -15,6 +15,6 @@
     <font
         android:font="@font/raleway_semibold"
         android:fontStyle="normal"
-        android:fontWeight="600" />
+        android:fontWeight="700" />
 
 </font-family>

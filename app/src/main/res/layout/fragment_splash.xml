@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_splash"
-        app:fitsSystemWindows="true"
         tools:context=".ui.auth.SplashFragment">
 
-        <include layout="@layout/normal_appbarlayout" />
+        <include android:id="@+id/app_bar" layout="@layout/normal_appbarlayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

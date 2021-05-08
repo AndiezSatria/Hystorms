@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro2
 import com.github.appintro.AppIntroFragment
 import com.github.appintro.AppIntroPageTransformerType
+import org.d3ifcool.hystorms.ui.auth.AuthActivity
 
 class IntroductionActivity : AppIntro2() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,15 +74,9 @@ class IntroductionActivity : AppIntro2() {
         askForPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 5, true)
     }
 
-    override fun onSkipPressed(currentFragment: Fragment?) {
-        super.onSkipPressed(currentFragment)
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
-    }
-
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, AuthActivity::class.java))
         finish()
     }
 }

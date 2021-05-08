@@ -17,4 +17,5 @@
     <string name="forget_password_desc">Illustration Forget Password</string>
     <string name="forget_password_title">Masukkan alamat Email akun Anda\nUntuk menerima email ubah password</string>
     <string name="text_send">Kirim</string>
+    <string name="fab_profilepic_desc">Button to pick and delete picture</string>
 </resources>

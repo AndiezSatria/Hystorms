@@ -2,18 +2,34 @@ package org.d3ifcool.hystorms.ui.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import org.d3ifcool.hystorms.R
+import org.d3ifcool.hystorms.databinding.FragmentSplashBinding
 
-class SplashFragment : Fragment() {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+    private lateinit var binding: FragmentSplashBinding
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentSplashBinding.bind(view)
+        binding.lifecycleOwner = this
+
+        val navHostFragment = NavHostFragment.findNavController(this)
+        val appBarConfiguration = AppBarConfiguration(navHostFragment.graph)
+
+        binding.apply {
+            btnLogin.setOnClickListener {
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+            }
+            btnRegister.setOnClickListener {
+                findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToRegisterFragment())
+            }
+            appBar.toolbar.setupWithNavController(navHostFragment, appBarConfiguration)
+        }
     }
 }

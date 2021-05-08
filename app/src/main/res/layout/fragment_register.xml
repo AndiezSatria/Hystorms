@@ -5,15 +5,22 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="org.d3ifcool.hystorms.viewmodel.RegisterViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_splash"
         tools:context=".ui.auth.RegisterFragment">
 
-        <include layout="@layout/normal_appbarlayout" />
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/normal_appbarlayout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -31,25 +38,39 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/raleway_semibold"
                     android:text="@string/register_page_title"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_profile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:contentDescription="@string/profile_picture"
+                    app:bindProfileWithFile="@{viewModel.fileToUpload}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_register_title"
                     tools:src="@drawable/ic_account" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginTop="80dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/fab_profilepic_desc"
+                    android:src="@drawable/ic_add_white"
+                    app:bindFABProfileState="@{viewModel.buttonState}"
+                    app:layout_constraintStart_toStartOf="@+id/img_profile"
+                    app:layout_constraintTop_toTopOf="@+id/img_profile" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tf_name"
@@ -57,12 +78,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:hint="@string/text_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/img_profile">
+                    app:layout_constraintTop_toBottomOf="@+id/fab_picture">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -85,7 +106,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +164,11 @@
                     app:cornerRadius="1000dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tf_confirm_pass" />
+                    app:layout_constraintTop_toBottomOf="@+id/tf_confirm_pass"
+                    app:bindLoadingButtonState="@{viewModel.viewState}"
+                    app:spinning_bar_color="#FFF"
+                    app:spinning_bar_padding="6dp"
+                    app:spinning_bar_width="4dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
