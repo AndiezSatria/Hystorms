@@ -1,7 +1,6 @@
 package org.d3ifcool.hystorms.viewmodel
 
 import androidx.lifecycle.*
-import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.DataOrException
@@ -29,9 +28,20 @@ class RegisterViewModel @Inject constructor(
     val fileToUpload: LiveData<File>
         get() = _fileToUpload
 
-    private val _dataRegister: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
-    val dataRegister: LiveData<DataOrException<User, Exception>>
-        get() = _dataRegister
+    private val _authenticatedUser: MutableLiveData<DataOrException<User, Exception>> =
+        authRepository.authenticatedUser
+    val authenticatedUser: LiveData<DataOrException<User, Exception>>
+        get() = _authenticatedUser
+
+    private val _profileUploadedUser: MutableLiveData<DataOrException<User, Exception>> =
+        authRepository.profileUploadedUser
+    val profileUploadedUser: LiveData<DataOrException<User, Exception>>
+        get() = _profileUploadedUser
+
+    private val _savedUser: MutableLiveData<DataOrException<User, Exception>> =
+        authRepository.savedUser
+    val savedUser: LiveData<DataOrException<User, Exception>>
+        get() = _savedUser
 
     fun setFile(file: File) {
         _fileToUpload.value = file
@@ -45,13 +55,27 @@ class RegisterViewModel @Inject constructor(
         _buttonState.value = buttonUploadState
     }
 
-    fun deleteData() {
-        _dataRegister.value = null
+    fun resetData() {
+        deleteFile()
+        authRepository.resetState()
+        authRepository.resetData()
     }
 
-    fun register(user: User, pass: String, file: File?) {
+    fun registerAuth(user: User, pass: String) {
         viewModelScope.launch {
-            _dataRegister.value = authRepository.firebaseRegister(user, pass, file)
+            authRepository.firebaseRegister(user, pass)
+        }
+    }
+
+    fun uploadProfile(user: User, file: File) {
+        viewModelScope.launch {
+            authRepository.firebaseUploadProfilePicture(file, user)
+        }
+    }
+
+    fun saveUser(user: User) {
+        viewModelScope.launch {
+            authRepository.setUser(user)
         }
     }
 

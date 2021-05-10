@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -24,6 +24,9 @@ import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.viewmodel.RegisterViewModel
 import java.io.File
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -58,56 +61,143 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     }
                 }
             }
-            registerViewModel.dataRegister.observe(viewLifecycleOwner) { data ->
-                if (data != null) {
-                    if (data.data != null) {
-                        data.data?.let {
-                            showSnackBar("Akun ${it.name} sudah dibuat") {
-                                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-                                viewModel.deleteFile()
-                                viewModel.deleteData()
-                            }
-                        }
-                    } else {
-                        data.exception?.message?.let {
-                            showErrorDialog(it, requireContext()) { alert ->
-                                alert.dismissWithAnimation()
-                            }
-                        }
+            btnRegister.setOnClickListener {
+                val user: User? = getUser()
+                Log.d(Constant.APP_DEBUG, "Kepencet")
+                if (user != null) {
+                    val pass: String = getPass()
+                    if (pass != "") {
+                        registerViewModel.registerAuth(user, pass)
                     }
                 } else {
-                    btnRegister.setOnClickListener {
-                        val user: User? = getUser()
-                        val pass: String = getPass()
-                        if (user != null && pass != "") {
-                            var fileToUpload: File? = null
-                            registerViewModel.fileToUpload.observe(viewLifecycleOwner) { file ->
-                                fileToUpload = file
-                            }
-                            registerViewModel.register(user, pass, fileToUpload)
+                    Log.d(Constant.APP_DEBUG, "Gak jalan")
+                }
+            }
+        }
+        listenToSavedProfileUser()
+        listenToUploadedProfileUser()
+        listenToAuthenticatedUser()
+    }
+
+    private fun listenToAuthenticatedUser() {
+        registerViewModel.authenticatedUser.observe(viewLifecycleOwner,
+            { dataOrException ->
+                if (dataOrException.data != null) {
+                    var content = "Autentikasi akun selesai."
+                    val user: User = dataOrException.data!!
+                    val file: File? = getFileToUpload()
+                    if (file != null) {
+                        content += " Mengunggah foto profil."
+                        registerViewModel.uploadProfile(user, file)
+                    } else {
+                        content += " Menyimpan data akun."
+                        registerViewModel.saveUser(user)
+                    }
+                    showSnackBar(content, null)
+                }
+                if (dataOrException.exception != null) {
+                    dataOrException.exception?.message?.let {
+                        Log.e(Constant.APP_DEBUG, it)
+                        showErrorDialog(
+                            "Error",
+                            it,
+                            requireContext()
+                        ) { alert ->
+                            alert.dismissWithAnimation()
                         }
+                    }
+                }
+            })
+    }
+
+    private fun listenToUploadedProfileUser() {
+        registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { dataOrException ->
+            if (dataOrException.data != null) {
+                val content = "Foto profil berhasil diunggah. Menyimpan data akun."
+                val user: User = dataOrException.data!!
+                registerViewModel.saveUser(user)
+                showSnackBar(content, null)
+            }
+            if (dataOrException.exception != null) {
+                dataOrException.exception?.message?.let {
+                    Log.e(Constant.APP_DEBUG, it)
+                    showErrorDialog(
+                        "Error",
+                        it,
+                        requireContext()
+                    ) { alert ->
+                        alert.dismissWithAnimation()
                     }
                 }
             }
         }
     }
 
+    private fun listenToSavedProfileUser() {
+        registerViewModel.savedUser.observe(viewLifecycleOwner) { dataOrException ->
+            if (dataOrException.data != null) {
+                val content = "Akun berhasil disimpan. Silahkan masuk dengan akun Anda."
+                showSnackBar(content) {
+                    findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                    registerViewModel.resetData()
+                }
+            }
+            if (dataOrException.exception != null) {
+                dataOrException.exception?.message?.let {
+                    Log.e(Constant.APP_DEBUG, it)
+                    showErrorDialog(
+                        "Error",
+                        it,
+                        requireContext()
+                    ) { alert ->
+                        alert.dismissWithAnimation()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        registerViewModel.resetData()
+    }
+
     private fun getPass(): String {
         var pass = ""
         if (checkPassword()) {
-            pass = binding.tfPassword.editText.toString()
+            pass = binding.tfPassword.editText?.text.toString()
         }
         return pass
     }
 
+    private fun getFileToUpload(): File? {
+        var fileToUpload: File? = null
+        registerViewModel.fileToUpload.observe(viewLifecycleOwner) { file ->
+            fileToUpload = file
+        }
+        return fileToUpload
+    }
+
     private fun checkPassword(): Boolean {
-        return if (binding.tfPassword.editText.toString() == binding.tfConfirmPass.editText.toString()) true
-        else {
-            showErrorDialog(
-                "Password dan Password ulang tidak sama!",
-                requireContext()
-            ) { it.dismissWithAnimation() }
-            false
+        return when {
+            binding.tfPassword.editText?.text.toString()
+                .trim() != binding.tfConfirmPass.editText?.text.toString().trim() -> {
+                showErrorDialog(
+                    "Perhatian",
+                    "Password dan Password ulang tidak sama!",
+                    requireContext()
+                ) { it.dismissWithAnimation() }
+                false
+            }
+            binding.tfPassword.editText?.text.toString().length < 6 -> {
+                showErrorDialog(
+                    "Perhatian",
+                    "Password kurang dari 6 karakter",
+                    requireContext()
+                ) { it.dismissWithAnimation() }
+                false
+            }
+            else -> true
         }
     }
 
@@ -127,7 +217,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             binding.tfPassword.editText?.text.toString().trim() == "" &&
             binding.tfConfirmPass.editText?.text.toString().trim() == ""
         ) {
-            showErrorDialog("Mohon isi semua bidang", requireContext()) {
+            showErrorDialog("Perhatian", "Mohon isi semua bidang", requireActivity()) {
                 it.dismissWithAnimation()
             }
         } else {
@@ -163,22 +253,24 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun showSnackBar(
-        content: String, listener: View.OnClickListener
+        content: String, listener: View.OnClickListener?
     ) {
+        Log.d(Constant.APP_DEBUG, "Snackbar Kepanggil")
         val snackbar = Snackbar.make(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-        snackbar.setAction(R.string.text_login, listener)
+        if (listener != null) snackbar.setAction(R.string.text_login, listener)
         snackbar.show()
     }
 
     private fun showErrorDialog(
+        title: String,
         desc: String,
         context: Context,
         listener: SweetAlertDialog.OnSweetClickListener
     ) {
         SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-            .setTitleText("Error")
+            .setTitleText(title)
             .setContentText(desc)
-            .setNeutralText("Ok")
-            .setNeutralClickListener(listener)
+            .setConfirmButton("OK", listener)
+            .show()
     }
 }

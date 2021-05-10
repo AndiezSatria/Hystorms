@@ -2,6 +2,7 @@ package org.d3ifcool.hystorms.di
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import dagger.Module
 import dagger.Provides
@@ -20,8 +21,8 @@ object RepositoryModule {
     fun provideAuthRepository(
         firebaseAuth: FirebaseAuth,
         @UserReference userRef: CollectionReference,
-        @ProfilePicture profilePicRef: StorageReference
+        storageReference: FirebaseStorage
     ): AuthRepository {
-        return AuthRepository(firebaseAuth, userRef, profilePicRef)
+        return AuthRepository(firebaseAuth, userRef, storageReference)
     }
 }

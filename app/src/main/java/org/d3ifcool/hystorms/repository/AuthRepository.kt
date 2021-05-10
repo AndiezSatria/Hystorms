@@ -5,38 +5,43 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.FirebaseStorage
+import org.d3ifcool.hystorms.data.Constant
 import org.d3ifcool.hystorms.model.DataOrException
 import org.d3ifcool.hystorms.model.User
-import org.d3ifcool.hystorms.util.ProfilePicture
-import org.d3ifcool.hystorms.util.UserReference
 import org.d3ifcool.hystorms.util.ViewState
 import java.io.File
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class AuthRepository constructor(
     private val firebaseAuth: FirebaseAuth,
     private val userRef: CollectionReference,
-    private val profilePicRef: StorageReference
+    private val storageRef: FirebaseStorage
 ) {
-    var viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
+    val authenticatedUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
+    val profileUploadedUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
+    val savedUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
+
+    val viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
 
     private fun setState(viewStateIn: ViewState) {
         viewState.value = viewStateIn
     }
 
+    fun resetState() {
+        viewState.value = ViewState.NOTHING
+    }
+
     fun firebaseSignIn(
         email: String,
         pass: String
-    ): DataOrException<User, Exception> {
+    ): DataOrException<String, Exception> {
         setState(ViewState.LOADING)
-        var dataOrException: DataOrException<User, Exception> = DataOrException()
+        val dataOrException: DataOrException<String, Exception> = DataOrException()
         firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val firebaseUser = firebaseAuth.currentUser
                 if (firebaseUser != null) {
-                    dataOrException = getUser(firebaseUser.uid)
+                    dataOrException.data = firebaseUser.uid
                 }
             } else {
                 dataOrException.exception = task.exception
@@ -47,56 +52,63 @@ class AuthRepository constructor(
 
     fun firebaseRegister(
         user: User,
-        pass: String,
-        file: File?
-    ): DataOrException<User, Exception> {
+        pass: String
+    ) {
         setState(ViewState.LOADING)
-        var dataOrException: DataOrException<User, Exception> = DataOrException()
+        var dataOrException: DataOrException<User, Exception>
         firebaseAuth.createUserWithEmailAndPassword(user.email, pass)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val currentUser = firebaseAuth.currentUser
-                    if (currentUser != null) user.uid = currentUser.uid
-                    if (file != null) {
-                        val downloadUrl: DataOrException<String, Exception> =
-                            firebaseUploadProfilePicture(file)
-                        if (downloadUrl.data != null) {
-                            user.photoUrl = downloadUrl.data
-                            dataOrException = setUser(user)
-                        } else dataOrException.exception = downloadUrl.exception
-                    } else dataOrException = setUser(user)
+                    val firebaseUser = firebaseAuth.currentUser
+                    if (firebaseUser != null) user.uid = firebaseUser.uid
+                    dataOrException = DataOrException(data = user)
+                    authenticatedUser.value = dataOrException
                 } else {
-                    dataOrException.exception = task.exception
+                    setState(ViewState.ERROR)
+                    task.exception?.let {
+                        dataOrException = DataOrException(exception = it)
+                        authenticatedUser.value = dataOrException
+                    }
                 }
             }
-        return dataOrException
     }
 
-    private fun firebaseUploadProfilePicture(
-        file: File
-    ): DataOrException<String, Exception> {
+    fun firebaseUploadProfilePicture(
+        file: File,
+        user: User
+    ) {
         setState(ViewState.LOADING)
-        val dataOrException: DataOrException<String, Exception> = DataOrException()
-        val uploadTask = profilePicRef.putFile(Uri.fromFile(file))
+        val dataOrException: DataOrException<User, Exception> = DataOrException()
+        val fileRef = storageRef.reference.child(
+            "${Constant.PROFILE_PICTURE}/${file.name}"
+        )
+        val uploadTask = fileRef.putFile(Uri.fromFile(file))
         uploadTask.continueWithTask { task ->
             if (!task.isSuccessful) {
-                dataOrException.exception = task.exception
+                task.exception?.let {
+                    dataOrException.exception = it
+                }
+                profileUploadedUser.value = dataOrException
                 setState(ViewState.ERROR)
             }
-            profilePicRef.downloadUrl
+            fileRef.downloadUrl
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                dataOrException.data = task.result.toString()
-                setState(ViewState.SUCCESS)
+                val downloadUrl = task.result.toString()
+                user.photoUrl = downloadUrl
+                dataOrException.data = user
+                profileUploadedUser.value = dataOrException
             } else {
-                dataOrException.exception = task.exception
+                task.exception?.let {
+                    dataOrException.exception = it
+                    profileUploadedUser.value = dataOrException
+                }
                 setState(ViewState.ERROR)
             }
         }
-        return dataOrException
     }
 
-    private fun getUser(uid: String): DataOrException<User, Exception> {
+    fun getUser(uid: String): DataOrException<User, Exception> {
         val dataOrException: DataOrException<User, Exception> = DataOrException()
         userRef.document(uid).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -113,16 +125,28 @@ class AuthRepository constructor(
         return dataOrException
     }
 
-    private fun setUser(user: User): DataOrException<User, Exception> {
+    fun setUser(user: User) {
         setState(ViewState.LOADING)
         val dataOrException: DataOrException<User, Exception> = DataOrException()
         val uidRef: DocumentReference = userRef.document(user.uid)
         uidRef.set(user).addOnCompleteListener { task ->
-            if (task.isSuccessful) dataOrException.data = user
-            else dataOrException.exception = task.exception
+            if (task.isSuccessful) {
+                dataOrException.data = user
+                savedUser.value = dataOrException
+                setState(ViewState.SUCCESS)
+            } else {
+                task.exception?.let {
+                    dataOrException.exception = it
+                    savedUser.value = dataOrException
+                }
+                setState(ViewState.ERROR)
+            }
         }
-
-        return dataOrException
     }
 
+    fun resetData() {
+        authenticatedUser.value = DataOrException()
+        savedUser.value = DataOrException()
+        profileUploadedUser.value = DataOrException()
+    }
 }

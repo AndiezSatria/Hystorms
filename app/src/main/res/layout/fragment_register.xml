@@ -68,9 +68,10 @@
                     android:clickable="true"
                     android:contentDescription="@string/fab_profilepic_desc"
                     android:src="@drawable/ic_add_white"
-                    app:bindFABProfileState="@{viewModel.buttonState}"
+                    app:buttonUploadState="@{viewModel.buttonState}"
                     app:layout_constraintStart_toStartOf="@+id/img_profile"
-                    app:layout_constraintTop_toTopOf="@+id/img_profile" />
+                    app:layout_constraintTop_toTopOf="@+id/img_profile"
+                    app:viewState="@{viewModel.viewState}" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tf_name"
@@ -87,7 +88,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +109,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,7 +130,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +151,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,13 +165,12 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/green_variant"
                     android:text="@string/text_register"
-                    android:textColor="@color/green_text"
-                    app:cornerRadius="1000dp"
+                    android:textColor="@color/green_button"
+                    app:bindLoadingButtonState="@{viewModel.viewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tf_confirm_pass"
-                    app:bindLoadingButtonState="@{viewModel.viewState}"
-                    app:spinning_bar_color="#FFF"
+                    app:spinning_bar_color="@color/green_button"
                     app:spinning_bar_padding="6dp"
                     app:spinning_bar_width="4dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>

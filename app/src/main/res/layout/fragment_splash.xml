@@ -72,7 +72,6 @@
                 android:backgroundTint="@color/green_variant"
                 android:text="@string/text_login"
                 android:textColor="@color/green_text"
-                app:cornerRadius="1000dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description" />
@@ -85,7 +84,6 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/text_register"
                 android:textColor="@color/blue_text"
-                app:cornerRadius="1000dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_login" />
