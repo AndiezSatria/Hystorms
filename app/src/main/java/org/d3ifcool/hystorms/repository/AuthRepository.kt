@@ -21,6 +21,9 @@ class AuthRepository constructor(
     val profileUploadedUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
     val savedUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
 
+    val authenticatedUid: MutableLiveData<DataOrException<String, Exception>> = MutableLiveData()
+    val loggedInUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
+
     val viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
 
     private fun setState(viewStateIn: ViewState) {
@@ -42,9 +45,13 @@ class AuthRepository constructor(
                 val firebaseUser = firebaseAuth.currentUser
                 if (firebaseUser != null) {
                     dataOrException.data = firebaseUser.uid
+                    authenticatedUid.value = dataOrException
                 }
             } else {
-                dataOrException.exception = task.exception
+                setState(ViewState.ERROR)
+                task.exception?.let {
+                    dataOrException.exception = it
+                }
             }
         }
         return dataOrException
@@ -108,21 +115,24 @@ class AuthRepository constructor(
         }
     }
 
-    fun getUser(uid: String): DataOrException<User, Exception> {
+    fun getUser(uid: String) {
         val dataOrException: DataOrException<User, Exception> = DataOrException()
         userRef.document(uid).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val snapshot = task.result!!
                 if (snapshot.exists()) {
                     dataOrException.data = snapshot.toObject(User::class.java)
+                    loggedInUser.value = dataOrException
                     setState(ViewState.SUCCESS)
                 }
             } else {
-                dataOrException.exception = task.exception
                 setState(ViewState.ERROR)
+                task.exception?.let {
+                    dataOrException.exception = it
+                    loggedInUser.value = dataOrException
+                }
             }
         }
-        return dataOrException
     }
 
     fun setUser(user: User) {

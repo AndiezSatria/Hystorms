@@ -13,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private val _viewState: MutableLiveData<ViewState> = authRepository.viewState
     val viewState: LiveData<ViewState>

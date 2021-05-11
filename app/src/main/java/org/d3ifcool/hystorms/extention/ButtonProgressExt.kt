@@ -1,6 +1,5 @@
 package org.d3ifcool.hystorms.extention
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper

@@ -5,32 +5,37 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="org.d3ifcool.hystorms.viewmodel.LoginViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_splash">
 
         <include layout="@layout/normal_appbarlayout" />
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:contentDescription="@string/hystorms_logo"
                     android:id="@+id/img_logo_login"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="64dp"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/hystorms_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +50,8 @@
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="@string/login_page_title"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/img_logo_login" />
@@ -65,7 +71,9 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +93,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        app:bindLoadingEditTextState="@{viewModel.viewState}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,8 +107,8 @@
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="@color/green_variant"
                     android:text="@string/text_login"
-                    android:textColor="@color/green_text"
-                    app:cornerRadius="1000dp"
+                    android:textColor="@color/green_button"
+                    app:bindLoadingButtonState="@{viewModel.viewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tf_password" />
@@ -118,6 +127,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tf_password" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
