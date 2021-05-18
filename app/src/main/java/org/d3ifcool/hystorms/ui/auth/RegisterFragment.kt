@@ -24,8 +24,6 @@ import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.viewmodel.RegisterViewModel
 import java.io.File
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 @AndroidEntryPoint

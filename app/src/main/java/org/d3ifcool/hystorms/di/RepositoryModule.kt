@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.d3ifcool.hystorms.repository.AuthRepository
+import org.d3ifcool.hystorms.repository.SplashRepository
 import org.d3ifcool.hystorms.util.ProfilePicture
 import org.d3ifcool.hystorms.util.UserReference
 import javax.inject.Singleton
@@ -25,4 +26,11 @@ object RepositoryModule {
     ): AuthRepository {
         return AuthRepository(firebaseAuth, userRef, storageReference)
     }
+
+    @Singleton
+    @Provides
+    fun provideSplashRepository(
+        firebaseAuth: FirebaseAuth,
+        @UserReference userRef: CollectionReference
+    ): SplashRepository = SplashRepository(firebaseAuth, userRef)
 }
