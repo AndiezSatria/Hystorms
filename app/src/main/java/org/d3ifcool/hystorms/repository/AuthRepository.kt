@@ -24,6 +24,8 @@ class AuthRepository constructor(
     val authenticatedUid: MutableLiveData<DataOrException<String, Exception>> = MutableLiveData()
     val loggedInUser: MutableLiveData<DataOrException<User, Exception>> = MutableLiveData()
 
+    val resetPasswordResult: MutableLiveData<DataOrException<String, Exception>> = MutableLiveData()
+
     val viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
 
     private fun setState(viewStateIn: ViewState) {
@@ -46,7 +48,28 @@ class AuthRepository constructor(
                 if (firebaseUser != null) {
                     dataOrException.data = firebaseUser.uid
                     authenticatedUid.value = dataOrException
+                    resetPasswordResult.value = dataOrException
                 }
+            } else {
+                setState(ViewState.ERROR)
+                task.exception?.let {
+                    dataOrException.exception = it
+                    resetPasswordResult.value = dataOrException
+                }
+            }
+        }
+        return dataOrException
+    }
+
+    fun resetPassword(
+        email: String
+    ) {
+        setState(ViewState.LOADING)
+        val dataOrException: DataOrException<String, Exception> = DataOrException()
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                dataOrException.data = "Email berhasil dikirim"
+                setState(ViewState.SUCCESS)
             } else {
                 setState(ViewState.ERROR)
                 task.exception?.let {
@@ -54,7 +77,6 @@ class AuthRepository constructor(
                 }
             }
         }
-        return dataOrException
     }
 
     fun firebaseRegister(

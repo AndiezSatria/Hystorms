@@ -65,6 +65,16 @@ class IntroductionActivity : AppIntro2() {
                 titleColor = getColor(R.color.green_text)
             )
         )
+        addSlide(
+            AppIntroFragment.newInstance(
+                "Siap Menjelajah!",
+                "Seluruh kebutuhan aplikasi sudah dipenuhi. Nikmati penjelajahan Hystorms!",
+                imageDrawable = R.drawable.ic_slide_1,
+                backgroundDrawable = R.drawable.bg_slide,
+                descriptionColor = getColor(R.color.black),
+                titleColor = getColor(R.color.green_text)
+            )
+        )
         askForPermissions(
             arrayOf(
                 Manifest.permission.CAMERA,
