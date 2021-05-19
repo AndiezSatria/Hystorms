@@ -1,4 +1,4 @@
-package org.d3ifcool.hystorms
+package org.d3ifcool.hystorms.ui.intro
 
 import android.Manifest
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro2
 import com.github.appintro.AppIntroFragment
 import com.github.appintro.AppIntroPageTransformerType
+import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.ui.auth.AuthActivity
 
 class IntroductionActivity : AppIntro2() {

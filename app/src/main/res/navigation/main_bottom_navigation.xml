@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_bottom_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/devicesFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.home.DevicesFragment"
+        android:label="Daftar Alat"
+        tools:layout="@layout/fragment_devices" />
+    <fragment
+        android:id="@+id/encyclopediaFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.home.EncyclopediaFragment"
+        android:label="Ensiklopedia"
+        tools:layout="@layout/fragment_encyclopedia" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.home.SettingsFragment"
+        android:label="Pengaturan"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
