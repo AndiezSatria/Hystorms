@@ -1,9 +1,7 @@
 package org.d3ifcool.hystorms.ui.auth
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +10,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
-import org.d3ifcool.hystorms.data.Constant
+import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.databinding.FragmentLoginBinding
 import org.d3ifcool.hystorms.ui.main.MainActivity
 import org.d3ifcool.hystorms.viewmodel.LoginViewModel
@@ -51,9 +49,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
             if (dataOrException.exception != null) {
                 dataOrException.exception?.message?.let { message ->
-                    showErrorDialog("Error", message, requireContext()) {
-                        it.dismissWithAnimation()
-                    }
+                    Action.showDialog(
+                        "Error",
+                        message,
+                        requireContext(),
+                        confirmListener = {
+                            it.dismissWithAnimation()
+                        },
+                        confirmText = "Ok",
+                        type = SweetAlertDialog.ERROR_TYPE
+                    )
                 }
             }
         }
@@ -63,15 +68,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         loginViewModel.loggedInUser.observe(viewLifecycleOwner) { dataOrException ->
             if (dataOrException.data != null) {
                 val user = dataOrException.data!!
-                showSnackBar("Berhasil login. Selamat datang ${user.name}")
+                Action.showSnackBar(
+                    binding.coordinator,
+                    "Berhasil login. Selamat datang ${user.name}",
+                    Snackbar.LENGTH_SHORT
+                )
                 startActivity(Intent(requireActivity(), MainActivity::class.java))
                 requireActivity().finish()
             }
             if (dataOrException.exception != null) {
                 dataOrException.exception?.message?.let { message ->
-                    showErrorDialog("Error", message, requireContext()) {
-                        it.dismissWithAnimation()
-                    }
+                    Action.showDialog(
+                        "Error",
+                        message,
+                        requireContext(),
+                        confirmListener = {
+                            it.dismissWithAnimation()
+                        },
+                        confirmText = "Ok",
+                        type = SweetAlertDialog.ERROR_TYPE
+                    )
                 }
             }
         }
@@ -89,36 +105,25 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         return if (binding.tfEmail.editText?.text.toString()
                 .trim() == "" || binding.tfPassword.editText?.text.toString().trim() == ""
         ) {
-            showErrorDialog("Peringatan", "Mohon isi semua bidang", requireContext()) {
-                it.dismissWithAnimation()
-            }
+            Action.showDialog(
+                "Peringatan",
+                "Mohon isi semua bagan!",
+                requireContext(),
+                confirmText = "Ok",
+                confirmListener = {
+                    it.dismissWithAnimation()
+                })
             false
         } else if (binding.tfPassword.editText?.text.toString().length < 6) {
-            showErrorDialog("Peringatan", "Password kurang dari 6 karakter", requireContext()) {
-                it.dismissWithAnimation()
-            }
+            Action.showDialog(
+                "Peringatan",
+                "Kata sandi kurang dari 6 karakter!",
+                requireContext(),
+                confirmText = "Ok",
+                confirmListener = {
+                    it.dismissWithAnimation()
+                })
             false
         } else true
-    }
-
-    private fun showSnackBar(
-        content: String
-    ) {
-        Log.d(Constant.APP_DEBUG, "Snackbar Kepanggil")
-        val snackbar = Snackbar.make(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-        snackbar.show()
-    }
-
-    private fun showErrorDialog(
-        title: String,
-        desc: String,
-        context: Context,
-        listener: SweetAlertDialog.OnSweetClickListener
-    ) {
-        SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-            .setTitleText(title)
-            .setContentText(desc)
-            .setConfirmButton("OK", listener)
-            .show()
     }
 }

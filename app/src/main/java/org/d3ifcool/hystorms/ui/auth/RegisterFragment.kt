@@ -1,7 +1,6 @@
 package org.d3ifcool.hystorms.ui.auth
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,13 +17,13 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
-import org.d3ifcool.hystorms.data.Constant
+import org.d3ifcool.hystorms.constant.Action
+import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.databinding.FragmentRegisterBinding
 import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.viewmodel.RegisterViewModel
 import java.io.File
-
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -67,8 +66,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     if (pass != "") {
                         registerViewModel.registerAuth(user, pass)
                     }
-                } else {
-                    Log.d(Constant.APP_DEBUG, "Gak jalan")
                 }
             }
         }
@@ -91,18 +88,19 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         content += " Menyimpan data akun."
                         registerViewModel.saveUser(user)
                     }
-                    showSnackBar(content, null)
+                    Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
                 }
                 if (dataOrException.exception != null) {
                     dataOrException.exception?.message?.let {
-                        Log.e(Constant.APP_DEBUG, it)
-                        showErrorDialog(
+                        Action.showDialog(
                             "Error",
                             it,
-                            requireContext()
-                        ) { alert ->
-                            alert.dismissWithAnimation()
-                        }
+                            requireContext(),
+                            confirmListener = { alert ->
+                                alert.dismissWithAnimation()
+                            },
+                            type = SweetAlertDialog.ERROR_TYPE
+                        )
                     }
                 }
             })
@@ -114,18 +112,19 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 val content = "Foto profil berhasil diunggah. Menyimpan data akun."
                 val user: User = dataOrException.data!!
                 registerViewModel.saveUser(user)
-                showSnackBar(content, null)
+                Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
             }
             if (dataOrException.exception != null) {
                 dataOrException.exception?.message?.let {
-                    Log.e(Constant.APP_DEBUG, it)
-                    showErrorDialog(
+                    Action.showDialog(
                         "Error",
                         it,
-                        requireContext()
-                    ) { alert ->
-                        alert.dismissWithAnimation()
-                    }
+                        requireContext(),
+                        confirmListener = { alert ->
+                            alert.dismissWithAnimation()
+                        },
+                        type = SweetAlertDialog.ERROR_TYPE
+                    )
                 }
             }
         }
@@ -135,21 +134,27 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         registerViewModel.savedUser.observe(viewLifecycleOwner) { dataOrException ->
             if (dataOrException.data != null) {
                 val content = "Akun berhasil disimpan. Silahkan masuk dengan akun Anda."
-                showSnackBar(content) {
-                    findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-                    registerViewModel.resetData()
-                }
+                Action.showSnackBar(
+                    binding.coordinator,
+                    content,
+                    Snackbar.LENGTH_INDEFINITE,
+                    textAction = "Masuk",
+                    listener = {
+                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                        registerViewModel.resetData()
+                    })
             }
             if (dataOrException.exception != null) {
                 dataOrException.exception?.message?.let {
-                    Log.e(Constant.APP_DEBUG, it)
-                    showErrorDialog(
+                    Action.showDialog(
                         "Error",
                         it,
-                        requireContext()
-                    ) { alert ->
-                        alert.dismissWithAnimation()
-                    }
+                        requireContext(),
+                        confirmListener = { alert ->
+                            alert.dismissWithAnimation()
+                        },
+                        type = SweetAlertDialog.ERROR_TYPE
+                    )
                 }
             }
         }
@@ -180,19 +185,21 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         return when {
             binding.tfPassword.editText?.text.toString()
                 .trim() != binding.tfConfirmPass.editText?.text.toString().trim() -> {
-                showErrorDialog(
+                Action.showDialog(
                     "Perhatian",
-                    "Password dan Password ulang tidak sama!",
-                    requireContext()
-                ) { it.dismissWithAnimation() }
+                    "Password dan password ulang tidak sama!",
+                    requireContext(),
+                    confirmListener = { it.dismissWithAnimation() }
+                )
                 false
             }
             binding.tfPassword.editText?.text.toString().length < 6 -> {
-                showErrorDialog(
+                Action.showDialog(
                     "Perhatian",
-                    "Password kurang dari 6 karakter",
-                    requireContext()
-                ) { it.dismissWithAnimation() }
+                    "Password kurang dari 6 karakter!",
+                    requireContext(),
+                    confirmListener = { it.dismissWithAnimation() }
+                )
                 false
             }
             else -> true
@@ -215,9 +222,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             binding.tfPassword.editText?.text.toString().trim() == "" &&
             binding.tfConfirmPass.editText?.text.toString().trim() == ""
         ) {
-            showErrorDialog("Perhatian", "Mohon isi semua bidang", requireActivity()) {
-                it.dismissWithAnimation()
-            }
+            Action.showDialog(
+                "Perhatian",
+                "Mohon isi semua bagan!",
+                requireContext(),
+                confirmListener = {
+                    it.dismissWithAnimation()
+                })
         } else {
             condition = true
         }
@@ -231,44 +242,16 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 val file: File = ImagePicker.getFile(data)!!
                 registerViewModel.setFile(file)
                 registerViewModel.setButtonState(ButtonUploadState.DELETE)
-                Log.d(Constant.APP_DEBUG, "Sukses")
             }
             ImagePicker.RESULT_ERROR -> {
-                Toast.makeText(
+                Action.showToast(
                     requireContext(),
-                    ImagePicker.getError(data),
-                    Toast.LENGTH_SHORT
-                ).show()
+                    ImagePicker.getError(data), Toast.LENGTH_LONG
+                )
             }
             else -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Task Cancelled",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Action.showToast(requireContext(), "Tugas dibatalkan")
             }
         }
-    }
-
-    private fun showSnackBar(
-        content: String, listener: View.OnClickListener?
-    ) {
-        Log.d(Constant.APP_DEBUG, "Snackbar Kepanggil")
-        val snackbar = Snackbar.make(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-        if (listener != null) snackbar.setAction(R.string.text_login, listener)
-        snackbar.show()
-    }
-
-    private fun showErrorDialog(
-        title: String,
-        desc: String,
-        context: Context,
-        listener: SweetAlertDialog.OnSweetClickListener
-    ) {
-        SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-            .setTitleText(title)
-            .setContentText(desc)
-            .setConfirmButton("OK", listener)
-            .show()
     }
 }

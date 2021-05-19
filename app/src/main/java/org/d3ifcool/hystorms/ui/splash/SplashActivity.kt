@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.IntroductionActivity
-import org.d3ifcool.hystorms.data.Constant
+import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.db.PrefManager
 import org.d3ifcool.hystorms.ui.auth.AuthActivity
 import org.d3ifcool.hystorms.ui.main.MainActivity

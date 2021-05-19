@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.FirebaseStorage
-import org.d3ifcool.hystorms.data.Constant
+import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.model.DataOrException
 import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.util.ViewState

@@ -1,4 +1,4 @@
-package org.d3ifcool.hystorms.data
+package org.d3ifcool.hystorms.constant
 
 class Constant {
     companion object{

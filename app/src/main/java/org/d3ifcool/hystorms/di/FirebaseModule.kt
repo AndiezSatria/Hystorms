@@ -10,7 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.d3ifcool.hystorms.data.Constant
+import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.util.ProfilePicture
 import org.d3ifcool.hystorms.util.UserReference
 import javax.inject.Singleton
