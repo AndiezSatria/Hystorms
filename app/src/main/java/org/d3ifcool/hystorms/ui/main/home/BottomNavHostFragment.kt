@@ -9,7 +9,7 @@ import javax.inject.Inject
 class BottomNavHostFragment : NavHostFragment() {
 
     @Inject
-    private lateinit var fragmentFactory: BottomNavFragmentFactory
+    lateinit var fragmentFactory: BottomNavFragmentFactory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

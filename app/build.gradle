@@ -20,6 +20,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "WEATHER_API_ID", '"00f6beccb473ca2f73139f5125d47d89"')
     }
 
     buildTypes {
