@@ -8,7 +8,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.d3ifcool.hystorms.db.weather.WeatherCacheMapper
+import org.d3ifcool.hystorms.db.weather.WeatherDao
+import org.d3ifcool.hystorms.network.WeatherNetworkMapper
+import org.d3ifcool.hystorms.network.WeatherRetrofit
 import org.d3ifcool.hystorms.repository.AuthRepository
+import org.d3ifcool.hystorms.repository.HomeRepository
 import org.d3ifcool.hystorms.repository.SplashRepository
 import org.d3ifcool.hystorms.util.ProfilePicture
 import org.d3ifcool.hystorms.util.UserReference
@@ -33,4 +38,13 @@ object RepositoryModule {
         firebaseAuth: FirebaseAuth,
         @UserReference userRef: CollectionReference
     ): SplashRepository = SplashRepository(firebaseAuth, userRef)
+
+    @Singleton
+    @Provides
+    fun provideHomeRepository(
+        weatherService: WeatherRetrofit,
+        weatherDao: WeatherDao,
+        networkMapper: WeatherNetworkMapper,
+        cacheMapper: WeatherCacheMapper
+    ): HomeRepository = HomeRepository(weatherService, weatherDao, networkMapper, cacheMapper)
 }
