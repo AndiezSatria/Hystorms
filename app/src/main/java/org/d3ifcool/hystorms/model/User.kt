@@ -7,9 +7,9 @@ import java.util.*
 
 @IgnoreExtraProperties
 data class User(
-    var uid: String,
-    var name: String,
-    var email: String,
+    var uid: String = "",
+    var name: String = "",
+    var email: String = "",
     var photoUrl: String? = null,
     val createdAt: Date = Calendar.getInstance().time,
     @ServerTimestamp var modifiedAt: Date = Calendar.getInstance().time
