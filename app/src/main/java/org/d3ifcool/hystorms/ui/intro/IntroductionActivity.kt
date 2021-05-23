@@ -82,7 +82,12 @@ class IntroductionActivity : AppIntro2() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             ), 4, false
         )
-        askForPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 5, true)
+        askForPermissions(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ), 5, true
+        )
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
