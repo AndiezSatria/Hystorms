@@ -18,7 +18,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
 
-        val navHostFragment = NavHostFragment.findNavController(this)
+        val navHostFragment = NavHostFragment.findNavController(childFragmentManager.findFragmentById(R.id.fragment_container_main) as NavHostFragment)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
