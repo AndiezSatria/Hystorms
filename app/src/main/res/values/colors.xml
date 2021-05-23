@@ -13,4 +13,5 @@
     <color name="cream_dialog">#FFF6F6DE</color>
     <color name="positive">#FF3E9D9D</color>
     <color name="negative">#FFFF5C83</color>
+    <color name="gray_background">#FFDDDDDD</color>
 </resources>

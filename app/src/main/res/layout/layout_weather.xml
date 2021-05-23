@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewState"
+            type="org.d3ifcool.hystorms.util.ViewState" />
+
+        <variable
+            name="weather"
+            type="org.d3ifcool.hystorms.model.Weather" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_container"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:bindBackgroundWeatherContainer="@{weather.idIcon}"
+        app:bindVisibilityWeatherContainer="@{viewState}"
+        tools:background="@drawable/il_sunny">
+
+        <ImageView
+            android:id="@+id/img_condition"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_account" />
+
+        <TextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/opensans"
+            android:textSize="16sp"
+            app:bindMainTempText="@{weather.temp}"
+            app:layout_constraintStart_toEndOf="@+id/img_condition"
+            app:layout_constraintTop_toTopOf="@+id/img_condition"
+            tools:text="25°C" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/opensans"
+            android:text="@{weather.description}"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/img_condition"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temp"
+            tools:text="Hujan lebat" />
+
+        <ImageView
+            android:id="@+id/ic_humidity"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_condition"
+            app:srcCompat="@drawable/ic_drop" />
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/opensans"
+            android:textSize="12sp"
+            app:bindHumidityText="@{weather.humidity}"
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
+            app:layout_constraintTop_toBottomOf="@+id/img_condition"
+            tools:text="Kelembaban : 50%" />
+
+        <ImageView
+            android:id="@+id/ic_wind_speed"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_humidity"
+            app:srcCompat="@drawable/ic_wind" />
+
+        <TextView
+            android:id="@+id/tv_wind_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/opensans"
+            android:textSize="12sp"
+            app:bindWindSpeedText="@{weather.windSpeed}"
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
+            app:layout_constraintTop_toBottomOf="@+id/tv_humidity"
+            tools:text="Kecepatan : 1.5 m/s" />
+
+        <ImageView
+            android:id="@+id/ic_temp_feels_like"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wind_speed"
+            app:srcCompat="@drawable/ic_thermometer" />
+
+        <TextView
+            android:id="@+id/tv_temp_feels_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/opensans"
+            android:textSize="12sp"
+            app:bindFeelsLikeTempText="@{weather.feelsLike}"
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wind_speed"
+            tools:text="Berasa : 24°C" />
+
+        <ImageView
+            android:id="@+id/ic_location"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_location"
+            app:layout_constraintTop_toTopOf="@+id/tv_location"
+            app:srcCompat="@drawable/ic_location_on_black" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/opensans"
+            android:maxWidth="150dp"
+            android:text="@{weather.cityName}"
+            android:textAlignment="textEnd"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Jalan Sukapura no 2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

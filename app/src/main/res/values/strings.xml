@@ -18,6 +18,15 @@
     <string name="forget_password_title">Masukkan alamat Email akun Anda\nUntuk menerima email ubah password</string>
     <string name="text_send">Kirim</string>
     <string name="fab_profilepic_desc">Button to pick and delete picture</string>
+
+    <!-- Main Page Strings   -->
+
+    <!-- Home Page Strings   -->
+    <string name="text_temp">%1$d \u00B0C</string>
+    <string name="text_humidity">Kelembaban : %1$d</string>
+    <string name="text_wind_speed">Kecepatan Angin : %1$dm/s</string>
+    <string name="text_feels_like">Berasa : %1$d\u00B0C</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
