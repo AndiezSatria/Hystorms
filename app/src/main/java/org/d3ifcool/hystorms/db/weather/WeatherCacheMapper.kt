@@ -8,6 +8,9 @@ class WeatherCacheMapper @Inject constructor() : EntityMapper<WeatherCacheEntity
     override fun mapFromEntity(entity: WeatherCacheEntity): Weather {
         return Weather(
             entity.id,
+            entity.idIcon,
+            entity.main,
+            entity.name,
             entity.description,
             entity.icon,
             entity.temp,
@@ -22,6 +25,9 @@ class WeatherCacheMapper @Inject constructor() : EntityMapper<WeatherCacheEntity
     override fun mapFromDomain(domain: Weather): WeatherCacheEntity {
         return WeatherCacheEntity(
             1,
+            domain.idIcon,
+            domain.main,
+            domain.cityName,
             domain.description,
             domain.icon,
             domain.temp,
@@ -37,6 +43,9 @@ class WeatherCacheMapper @Inject constructor() : EntityMapper<WeatherCacheEntity
         return entities.map {
             Weather(
                 it.id,
+                it.idIcon,
+                it.main,
+                it.name,
                 it.description,
                 it.icon,
                 it.temp,

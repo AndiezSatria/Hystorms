@@ -5,7 +5,8 @@ import kotlinx.parcelize.RawValue
 data class WeatherEntity(
     val weather: @RawValue List<Weathers>,
     val main: @RawValue MainDataWeather,
-    val wind: @RawValue Wind
+    val wind: @RawValue Wind,
+    val name: String
 )
 
 data class Weathers(

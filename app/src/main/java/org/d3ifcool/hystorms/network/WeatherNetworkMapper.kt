@@ -9,6 +9,9 @@ class WeatherNetworkMapper @Inject constructor() : EntityMapper<WeatherEntity, W
         val weather = entity.weather[0]
         return Weather(
             id = weather.id,
+            main = weather.main,
+            idIcon = weather.id,
+            cityName = entity.name,
             description = weather.description,
             icon = weather.icon,
             temp = entity.main.temp.toLong(),
@@ -23,9 +26,9 @@ class WeatherNetworkMapper @Inject constructor() : EntityMapper<WeatherEntity, W
     override fun mapFromDomain(domain: Weather): WeatherEntity {
         val weathers: List<Weathers> = listOf(
             Weathers(
-                id = domain.id,
+                id = domain.idIcon,
                 description = domain.description,
-                main = domain.description,
+                main = domain.main,
                 icon = domain.icon
             )
         )
@@ -39,6 +42,6 @@ class WeatherNetworkMapper @Inject constructor() : EntityMapper<WeatherEntity, W
             domain.windSpeed.toInt(),
             domain.windDegree.toInt()
         )
-        return WeatherEntity(weathers, main, wind)
+        return WeatherEntity(weathers, main, wind, domain.cityName)
     }
 }

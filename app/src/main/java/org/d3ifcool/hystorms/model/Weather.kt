@@ -6,6 +6,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Weather(
     val id: Int,
+    val idIcon: Int,
+    val main: String,
+    val cityName: String,
     val description: String,
     val icon: String,
     val temp: Long,
