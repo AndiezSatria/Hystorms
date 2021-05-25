@@ -1,4 +1,4 @@
-package org.d3ifcool.hystorms.extention
+package org.d3ifcool.hystorms.extension
 
 import android.graphics.Bitmap
 import android.os.Handler
