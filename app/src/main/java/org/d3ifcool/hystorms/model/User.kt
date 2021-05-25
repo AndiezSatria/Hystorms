@@ -11,6 +11,7 @@ data class User(
     var name: String = "",
     var email: String = "",
     var photoUrl: String? = null,
-    val createdAt: Date = Calendar.getInstance().time,
+    var createdAt: Date = Calendar.getInstance().time,
+    var favoriteDevice: String = "",
     @ServerTimestamp var modifiedAt: Date = Calendar.getInstance().time
 ) : Serializable
