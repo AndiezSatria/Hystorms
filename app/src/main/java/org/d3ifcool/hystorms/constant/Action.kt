@@ -14,13 +14,13 @@ class Action {
     companion object {
         fun showSnackBar(
             layout: View,
-            content: String,
+            content: String?,
             duration: Int,
             textAction: String = "",
             resId: Int? = null,
             listener: View.OnClickListener? = null
         ) {
-            val snackbar = Snackbar.make(layout, content, duration)
+            val snackbar = Snackbar.make(layout, content ?: "Error tidak diketahui", duration)
             if (listener != null) {
                 when {
                     textAction != "" -> snackbar.setAction(textAction, listener)
