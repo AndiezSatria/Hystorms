@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="org.d3ifcool.hystorms.viewmodel.RegisterViewModel" />
+            type="org.d3ifcool.hystorms.viewmodel.RegisterViewModelNew" />
 
     </data>
 
