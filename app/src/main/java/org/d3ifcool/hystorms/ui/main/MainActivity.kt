@@ -2,6 +2,7 @@ package org.d3ifcool.hystorms.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
 

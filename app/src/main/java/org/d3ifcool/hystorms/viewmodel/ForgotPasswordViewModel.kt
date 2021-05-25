@@ -5,28 +5,36 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.d3ifcool.hystorms.model.DataOrException
-import org.d3ifcool.hystorms.repository.AuthRepository
+import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
+import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.ViewState
 import javax.inject.Inject
 
 @HiltViewModel
 class ForgotPasswordViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthenticationRepositoryImpl
 ) : ViewModel() {
-    private val _viewState: MutableLiveData<ViewState> = authRepository.viewState
+    private val _viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
     val viewState: LiveData<ViewState>
         get() = _viewState
 
-    private val _resetPassResult: MutableLiveData<DataOrException<String, Exception>> =
-        authRepository.resetPasswordResult
-    val resetPassResult: LiveData<DataOrException<String, Exception>>
+    fun setState(viewState: ViewState) {
+        _viewState.value = viewState
+    }
+
+    private val _resetPassResult: MutableLiveData<DataState<String>> =
+        MutableLiveData()
+    val resetPassResult: LiveData<DataState<String>>
         get() = _resetPassResult
 
     fun resetPass(email: String) {
         viewModelScope.launch {
-            authRepository.resetPassword(email)
+            authRepository.resetPassword(email).onEach { state ->
+                _resetPassResult.value = state
+            }.launchIn(viewModelScope)
         }
     }
 }

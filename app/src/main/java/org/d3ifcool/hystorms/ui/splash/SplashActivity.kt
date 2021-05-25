@@ -3,12 +3,14 @@ package org.d3ifcool.hystorms.ui.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.ui.intro.IntroductionActivity
 import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.db.PrefManager
+import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.ui.auth.AuthActivity
 import org.d3ifcool.hystorms.ui.main.MainActivity
 import org.d3ifcool.hystorms.viewmodel.SplashViewModel
@@ -40,17 +42,44 @@ class SplashActivity : AppCompatActivity() {
 
     private fun getUserData(uid: String) {
         viewModel.getUser(uid)
-        viewModel.user.observe(this) { dataOrException ->
-            if (dataOrException.data != null) {
-                val user = dataOrException.data!!
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(Constant.USER, user)
-                startActivity(intent)
-                finish()
-            }
-            if (dataOrException.exception != null) {
-                dataOrException.exception?.message?.let {
-                    Log.e(Constant.APP_DEBUG, it)
+        viewModel.user.observe(this) { state ->
+//            if (dataOrException.data != null) {
+//                val user = dataOrException.data!!
+//                Action.showLog(user.toString())
+//                startActivity(Intent(this, MainActivity::class.java).apply {
+//                    putExtra(Constant.USER, user)
+//                })
+//                finish()
+//            }
+//            if (dataOrException.exception != null) {
+//                dataOrException.exception?.message?.let {
+//                    Action.showLog(it)
+//                }
+//            }
+            when (state) {
+                is DataState.Canceled -> {
+                    state.exception.message?.let {
+                        Action.showLog(it)
+                        Action.showToast(this, it, Toast.LENGTH_LONG)
+                    }
+                    finishAndRemoveTask()
+                }
+                is DataState.Error -> {
+                    state.exception.message?.let {
+                        Action.showLog(it)
+                        Action.showToast(this, it, Toast.LENGTH_LONG)
+                    }
+                    finishAndRemoveTask()
+                }
+                is DataState.Loading -> {
+                }
+                is DataState.Success -> {
+                    val user = state.data
+                    Action.showLog(user.toString())
+                    startActivity(Intent(this, MainActivity::class.java).apply {
+                        putExtra(Constant.USER, user)
+                    })
+                    finish()
                 }
             }
         }

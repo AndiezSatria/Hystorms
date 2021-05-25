@@ -48,13 +48,12 @@ class AuthRepository constructor(
                 if (firebaseUser != null) {
                     dataOrException.data = firebaseUser.uid
                     authenticatedUid.value = dataOrException
-                    resetPasswordResult.value = dataOrException
                 }
             } else {
                 setState(ViewState.ERROR)
                 task.exception?.let {
                     dataOrException.exception = it
-                    resetPasswordResult.value = dataOrException
+                    authenticatedUid.value = dataOrException
                 }
             }
         }
@@ -69,11 +68,13 @@ class AuthRepository constructor(
         firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 dataOrException.data = "Email berhasil dikirim"
+                resetPasswordResult.value = dataOrException
                 setState(ViewState.SUCCESS)
             } else {
                 setState(ViewState.ERROR)
                 task.exception?.let {
                     dataOrException.exception = it
+                    resetPasswordResult.value = dataOrException
                 }
             }
         }
@@ -180,5 +181,9 @@ class AuthRepository constructor(
         authenticatedUser.value = DataOrException()
         savedUser.value = DataOrException()
         profileUploadedUser.value = DataOrException()
+        authenticatedUid.value = DataOrException()
+        loggedInUser.value = DataOrException()
+        resetPasswordResult.value = DataOrException()
+        setState(ViewState.NOTHING)
     }
 }

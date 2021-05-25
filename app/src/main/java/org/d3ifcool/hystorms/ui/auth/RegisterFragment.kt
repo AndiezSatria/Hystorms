@@ -9,10 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,15 +19,19 @@ import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.databinding.FragmentRegisterBinding
 import org.d3ifcool.hystorms.model.User
+import org.d3ifcool.hystorms.state.DataState
+import org.d3ifcool.hystorms.ui.main.MainActivity
 import org.d3ifcool.hystorms.util.ButtonUploadState
-import org.d3ifcool.hystorms.viewmodel.RegisterViewModel
+import org.d3ifcool.hystorms.util.ViewState
+import org.d3ifcool.hystorms.viewmodel.RegisterViewModelNew
 import java.io.File
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
-    private val registerViewModel: RegisterViewModel by viewModels()
+    private val registerViewModel: RegisterViewModelNew by viewModels()
+//    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,14 +77,33 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun listenToAuthenticatedUser() {
-        registerViewModel.authenticatedUser.observe(viewLifecycleOwner,
-            { dataOrException ->
-                if (dataOrException.data != null) {
+        registerViewModel.authenticatedUser.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is DataState.Canceled -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
+                is DataState.Error -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
+                is DataState.Loading -> {
+                    registerViewModel.setViewState(ViewState.LOADING)
+                }
+                is DataState.Success<User> -> {
                     var content = "Autentikasi akun selesai."
-                    val user: User = dataOrException.data!!
-                    val file: File? = getFileToUpload()
+                    val user = state.data
+                    val file = getFileToUpload()
                     if (file != null) {
-                        content += " Mengunggah foto profil."
+                        content += " Mengunggah foto profil"
                         registerViewModel.uploadProfile(user, file)
                     } else {
                         content += " Menyimpan data akun."
@@ -90,75 +111,164 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     }
                     Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
                 }
-                if (dataOrException.exception != null) {
-                    dataOrException.exception?.message?.let {
-                        Action.showDialog(
-                            "Error",
-                            it,
-                            requireContext(),
-                            confirmListener = { alert ->
-                                alert.dismissWithAnimation()
-                            },
-                            type = SweetAlertDialog.ERROR_TYPE
-                        )
-                    }
-                }
-            })
+            }
+        }
     }
 
     private fun listenToUploadedProfileUser() {
-        registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { dataOrException ->
-            if (dataOrException.data != null) {
-                val content = "Foto profil berhasil diunggah. Menyimpan data akun."
-                val user: User = dataOrException.data!!
-                registerViewModel.saveUser(user)
-                Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-            }
-            if (dataOrException.exception != null) {
-                dataOrException.exception?.message?.let {
-                    Action.showDialog(
-                        "Error",
-                        it,
-                        requireContext(),
-                        confirmListener = { alert ->
-                            alert.dismissWithAnimation()
-                        },
-                        type = SweetAlertDialog.ERROR_TYPE
+        registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is DataState.Canceled -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
                     )
+                }
+                is DataState.Error -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
+                is DataState.Loading -> {
+                }
+                is DataState.Success<User> -> {
+                    val content = "Foto profil berhasil diunggah. Menyimpan data akun."
+                    val user: User = state.data
+                    registerViewModel.saveUser(user)
+                    Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
                 }
             }
         }
     }
 
     private fun listenToSavedProfileUser() {
-        registerViewModel.savedUser.observe(viewLifecycleOwner) { dataOrException ->
-            if (dataOrException.data != null) {
-                val content = "Akun berhasil disimpan. Silahkan masuk dengan akun Anda."
-                Action.showSnackBar(
-                    binding.coordinator,
-                    content,
-                    Snackbar.LENGTH_INDEFINITE,
-                    textAction = "Masuk",
-                    listener = {
-                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-                        registerViewModel.resetData()
-                    })
-            }
-            if (dataOrException.exception != null) {
-                dataOrException.exception?.message?.let {
-                    Action.showDialog(
-                        "Error",
-                        it,
-                        requireContext(),
-                        confirmListener = { alert ->
-                            alert.dismissWithAnimation()
-                        },
-                        type = SweetAlertDialog.ERROR_TYPE
+        registerViewModel.savedUser.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is DataState.Canceled -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
                     )
+                }
+                is DataState.Error -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.exception.message,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
+                is DataState.Loading -> {
+                }
+                is DataState.Success<User> -> {
+                    registerViewModel.setViewState(ViewState.SUCCESS)
+                    val user = state.data
+                    val content = "Akun berhasil disimpan. Selamat Datang"
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        content,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
+                    intent.putExtra(Constant.USER, user)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
             }
         }
     }
+//    private fun listenToAuthenticatedUser() {
+//        registerViewModel.authenticatedUser.observe(viewLifecycleOwner,
+//            { dataOrException ->
+//                if (dataOrException.data != null) {
+//                    var content = "Autentikasi akun selesai."
+//                    val user: User = dataOrException.data!!
+//                    val file: File? = getFileToUpload()
+//                    if (file != null) {
+//                        content += " Mengunggah foto profil."
+//                        registerViewModel.uploadProfile(user, file)
+//                    } else {
+//                        content += " Menyimpan data akun."
+//                        registerViewModel.saveUser(user)
+//                    }
+//                    Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
+//                }
+//                if (dataOrException.exception != null) {
+//                    dataOrException.exception?.message?.let {
+//                        Action.showDialog(
+//                            "Error",
+//                            it,
+//                            requireContext(),
+//                            confirmListener = { alert ->
+//                                alert.dismissWithAnimation()
+//                            },
+//                            type = SweetAlertDialog.ERROR_TYPE
+//                        )
+//                    }
+//                }
+//            })
+//    }
+//
+//    private fun listenToUploadedProfileUser() {
+//        registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { dataOrException ->
+//            if (dataOrException.data != null) {
+//                val content = "Foto profil berhasil diunggah. Menyimpan data akun."
+//                val user: User = dataOrException.data!!
+//                registerViewModel.saveUser(user)
+//                Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
+//            }
+//            if (dataOrException.exception != null) {
+//                dataOrException.exception?.message?.let {
+//                    Action.showDialog(
+//                        "Error",
+//                        it,
+//                        requireContext(),
+//                        confirmListener = { alert ->
+//                            alert.dismissWithAnimation()
+//                        },
+//                        type = SweetAlertDialog.ERROR_TYPE
+//                    )
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun listenToSavedProfileUser() {
+//        registerViewModel.savedUser.observe(viewLifecycleOwner) { dataOrException ->
+//            if (dataOrException.data != null) {
+//                val content = "Akun berhasil disimpan. Silahkan masuk dengan akun Anda."
+//                Action.showSnackBar(
+//                    binding.coordinator,
+//                    content,
+//                    Snackbar.LENGTH_INDEFINITE,
+//                    textAction = "Masuk",
+//                    listener = {
+//                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+//                        registerViewModel.resetData()
+//                    })
+//            }
+//            if (dataOrException.exception != null) {
+//                dataOrException.exception?.message?.let {
+//                    Action.showDialog(
+//                        "Error",
+//                        it,
+//                        requireContext(),
+//                        confirmListener = { alert ->
+//                            alert.dismissWithAnimation()
+//                        },
+//                        type = SweetAlertDialog.ERROR_TYPE
+//                    )
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
