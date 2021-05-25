@@ -1,6 +1,5 @@
 package org.d3ifcool.hystorms.util
 
-import android.widget.Button
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -10,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import org.d3ifcool.hystorms.R
-import org.d3ifcool.hystorms.extention.ButtonProgressExt.morphDoneAndRevert
+import org.d3ifcool.hystorms.extension.ButtonProgressExt.morphDoneAndRevert
 import org.d3ifcool.hystorms.util.ViewState.*
 import java.io.File
 

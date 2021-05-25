@@ -9,12 +9,20 @@
         android:id="@+id/homeFragment"
         android:name="org.d3ifcool.hystorms.ui.main.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <argument
+            android:name="user"
+            app:argType="org.d3ifcool.hystorms.model.User" />
+    </fragment>
     <fragment
         android:id="@+id/devicesFragment"
-        android:name="org.d3ifcool.hystorms.ui.main.home.DevicesFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.device.DevicesFragment"
         android:label="Daftar Alat"
-        tools:layout="@layout/fragment_devices" />
+        tools:layout="@layout/fragment_devices" >
+        <argument
+            android:name="user"
+            app:argType="org.d3ifcool.hystorms.model.User" />
+    </fragment>
     <fragment
         android:id="@+id/encyclopediaFragment"
         android:name="org.d3ifcool.hystorms.ui.main.home.EncyclopediaFragment"
@@ -24,5 +32,9 @@
         android:id="@+id/settingsFragment"
         android:name="org.d3ifcool.hystorms.ui.main.home.SettingsFragment"
         android:label="Pengaturan"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <argument
+            android:name="user"
+            app:argType="org.d3ifcool.hystorms.model.User" />
+    </fragment>
 </navigation>

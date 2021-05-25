@@ -9,3 +9,11 @@ annotation class UserReference
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ProfilePicture
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DevicesReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthenticationRepo
