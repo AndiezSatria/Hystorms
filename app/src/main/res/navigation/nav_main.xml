@@ -9,5 +9,18 @@
         android:id="@+id/mainFragment"
         android:name="org.d3ifcool.hystorms.ui.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.device.DeviceDetailFragment"
+        android:label="Detail Alat"
+        tools:layout="@layout/fragment_device_detail" >
+        <argument
+            android:name="device"
+            app:argType="org.d3ifcool.hystorms.model.Device" />
+    </fragment>
 </navigation>
