@@ -11,9 +11,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.d3ifcool.hystorms.constant.Constant
-import org.d3ifcool.hystorms.util.DevicesReference
-import org.d3ifcool.hystorms.util.ProfilePicture
-import org.d3ifcool.hystorms.util.UserReference
+import org.d3ifcool.hystorms.util.*
 import javax.inject.Singleton
 
 @Module
@@ -66,5 +64,19 @@ object FirebaseModule {
     @Provides
     fun provideDeviceReference(rootRef: FirebaseFirestore): CollectionReference {
         return rootRef.collection(Constant.DEVICES)
+    }
+
+    @SensorPhysicReference
+    @Singleton
+    @Provides
+    fun provideSensorPhysicReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.SENSOR_PHYSIC)
+    }
+
+    @TanksReference
+    @Singleton
+    @Provides
+    fun provideTanksReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.TANKS)
     }
 }

@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.databinding.FragmentDevicesBinding
 import org.d3ifcool.hystorms.model.Device
+import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.ui.main.MainFragmentDirections
 import org.d3ifcool.hystorms.util.ItemClickHandler
@@ -27,10 +27,12 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
 
     private val handler = object : ItemClickHandler<Device> {
         override fun onClick(item: Device) {
+            var user: User? = null
+            viewModel.user.observe(viewLifecycleOwner) {
+                if (it != null) user = it
+            }
             Navigation.findNavController(requireActivity(), R.id.nav_main).navigate(
-                MainFragmentDirections.actionMainFragmentToDeviceDetailFragment(
-                    item
-                )
+                MainFragmentDirections.actionMainFragmentToDeviceDetailFragment(item, user)
             )
         }
 
@@ -49,10 +51,27 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
 
             recyclerView.adapter = adapter
             btnRefresh.setOnClickListener {
-                viewModel.getDevices()
+                observeUser()
             }
         }
         observeData()
+        observeUser()
+        observeUid()
+    }
+
+    private fun observeUser() {
+        viewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Action.showLog(it.toString())
+                viewModel.getDevices(it)
+            }
+        }
+    }
+
+    private fun observeUid() {
+        viewModel.uid.observe(viewLifecycleOwner) {
+            if (it != null) viewModel.getUserState(it)
+        }
     }
 
     private fun observeData() {
@@ -79,6 +98,7 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
                 }
                 is DataState.Success -> {
                     adapter.submitList(state.data)
+                    adapter.notifyDataSetChanged()
                     viewModel.setIsEmpty(state.data.isEmpty())
                     viewModel.setViewState(ViewState.SUCCESS)
                 }

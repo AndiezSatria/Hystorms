@@ -16,7 +16,10 @@ import org.d3ifcool.hystorms.repository.device.DevicesRepositoryImpl
 import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
 import org.d3ifcool.hystorms.repository.splash.SplashRepositoryImpl
 import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
+import org.d3ifcool.hystorms.repository.device.DetailDeviceRepositoryImpl
 import org.d3ifcool.hystorms.util.DevicesReference
+import org.d3ifcool.hystorms.util.SensorPhysicReference
+import org.d3ifcool.hystorms.util.TanksReference
 import org.d3ifcool.hystorms.util.UserReference
 import javax.inject.Singleton
 
@@ -56,12 +59,31 @@ object RepositoryModule {
         weatherService: WeatherRetrofit,
         weatherDao: WeatherDao,
         networkMapper: WeatherNetworkMapper,
-        cacheMapper: WeatherCacheMapper
-    ): HomeRepositoryImpl = HomeRepositoryImpl(weatherService, weatherDao, networkMapper, cacheMapper)
+        cacheMapper: WeatherCacheMapper,
+        @TanksReference tankReference: CollectionReference,
+        @DevicesReference deviceRef: CollectionReference
+    ): HomeRepositoryImpl =
+        HomeRepositoryImpl(
+            weatherService,
+            weatherDao,
+            networkMapper,
+            cacheMapper,
+            tankReference,
+            deviceRef
+        )
 
     @Singleton
     @Provides
     fun provideDevicesRepository(
         @DevicesReference deviceRef: CollectionReference
     ): DevicesRepositoryImpl = DevicesRepositoryImpl(deviceRef)
+
+    @Singleton
+    @Provides
+    fun provideDetailDeviceRepository(
+        @TanksReference tanksReference: CollectionReference,
+        @SensorPhysicReference physicReference: CollectionReference,
+        @UserReference userRef: CollectionReference
+    ): DetailDeviceRepositoryImpl =
+        DetailDeviceRepositoryImpl(tanksReference, physicReference, userRef)
 }

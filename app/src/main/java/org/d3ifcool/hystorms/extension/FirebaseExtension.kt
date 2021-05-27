@@ -59,7 +59,6 @@ object FirebaseExtension {
 
     suspend fun Query.awaitRealtime() = suspendCancellableCoroutine<QueryResponse> { continuation ->
         addSnapshotListener { value, error ->
-            Action.showLog("Kepanggil")
             if (error == null && continuation.isActive)
                 continuation.resume(QueryResponse(value, null))
             else if (error != null && continuation.isActive)

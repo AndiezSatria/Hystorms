@@ -6,6 +6,9 @@ class Constant {
         const val APP_DEBUG: String = "hystorms_debug"
         const val USERS: String = "users"
         const val DEVICES: String = "devices"
+        const val SENSOR_PHYSIC: String = "sensor_physics"
+        const val TANKS: String = "tanks"
+        const val SCHEDULE: String = "schedules"
         const val USER: String = "user_firebase"
         const val RC_PROFILE_IMAGE = 101
     }

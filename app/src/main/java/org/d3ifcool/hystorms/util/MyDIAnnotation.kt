@@ -16,4 +16,8 @@ annotation class DevicesReference
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AuthenticationRepo
+annotation class SensorPhysicReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TanksReference

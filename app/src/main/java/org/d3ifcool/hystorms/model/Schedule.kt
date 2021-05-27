@@ -8,6 +8,6 @@ data class Schedule(
     var owner: String = "",
     var tank: String = "",
     var time: Date = Calendar.getInstance().time,
-    var isDaily: Boolean = true,
-    var isDone: Boolean = false
+    @field:JvmField  var isDaily: Boolean = true,
+    @field:JvmField  var isDone: Boolean = false
 )

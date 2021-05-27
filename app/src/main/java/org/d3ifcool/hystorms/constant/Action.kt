@@ -81,9 +81,9 @@ class Action {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                return true
+                return false
             }
-            return false
+            return true
         }
     }
 }

@@ -14,7 +14,8 @@ data class Tank(
     var currentTemp: Double = 273.0,
     var currentHumidity: Double = 0.0,
     var owner: String = "",
-    var isAuthorized: Boolean = false,
+    var device: String = "",
+    @field:JvmField var isAuthorized: Boolean = false,
     var createdAt: Date = Calendar.getInstance().time,
     var plantedAt: Date = Calendar.getInstance().time,
     @ServerTimestamp var timeStamp: Date = Calendar.getInstance().time

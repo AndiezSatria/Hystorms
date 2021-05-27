@@ -3,6 +3,7 @@ package org.d3ifcool.hystorms.util
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
 import com.bumptech.glide.Glide
@@ -77,6 +78,18 @@ fun bindLoadingEditTextState(editText: TextInputEditText, state: ViewState) {
         NOTHING, ERROR -> {
             editText.isEnabled = true
         }
+    }
+}
+
+@BindingAdapter("bindImageUrl")
+fun bindImageUrl(imageView: ImageView, url: String?) {
+    url?.let {
+        val uri = url.toUri().buildUpon().scheme("https").build()
+        Glide.with(imageView.context)
+            .load(uri)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imageView)
     }
 }
 

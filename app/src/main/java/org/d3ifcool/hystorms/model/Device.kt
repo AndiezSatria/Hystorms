@@ -14,7 +14,8 @@ data class Device(
     var longitude: Double = 0.0,
     var macAddress: String = "",
     var owner: String = "",
-    var isAuthorized: Boolean = false,
+    var address: String = "",
+    @field:JvmField var isAuthorized: Boolean = false,
     var conditions: String = "",
     var createdAt: Date = Calendar.getInstance().time,
     @ServerTimestamp var timeStamp: Date = Calendar.getInstance().time

@@ -1,21 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
-    tools:context=".ui.main.device.DeviceDetailFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/normal_appbarlayout" />
+    <data>
 
-    <androidx.core.widget.NestedScrollView
+        <variable
+            name="detailViewModel"
+            type="org.d3ifcool.hystorms.viewmodel.DetailDeviceViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:background="@drawable/bg_main"
+        tools:context=".ui.main.device.DeviceDetailFragment">
 
-    </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:menu="@menu/detail_device_menu"
+                    app:title="Detail Alat"
+                    app:titleTextColor="@color/green_on_primary" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:bindVisibilityDataContainer="@{detailViewModel.detailViewState}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                    <include
+                        android:id="@+id/layout_data"
+                        layout="@layout/layout_detail_device" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:bindShimmer="@{detailViewModel.detailViewState}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                    app:shimmer_duration="800">
+
+                    <include layout="@layout/layout_detail_device_placeholder" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tank"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_grey_background"
+            android:paddingTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tanks_title"
+            tools:itemCount="1"
+            tools:listitem="@layout/layout_tank_item" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_grey_background"
+            android:paddingTop="8dp"
+            android:visibility="gone"
+            app:bindShimmer="@{detailViewModel.tanksViewState}"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:shimmer_duration="800">
+
+            <include layout="@layout/layout_tank_item_placeholder" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

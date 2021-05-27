@@ -40,14 +40,26 @@ fun bindShimmer(shimmer: ShimmerFrameLayout, viewState: ViewState?) {
     }
 }
 
-@BindingAdapter("bindVisibilityWeatherContainer")
-fun bindVisibilityWeatherContainer(view: View, viewState: ViewState?) {
+@BindingAdapter("bindVisibilityDataContainer")
+fun bindVisibilityDataContainer(view: View, viewState: ViewState?) {
     when (viewState) {
-        ViewState.ERROR, ViewState.SUCCESS -> {
+        ViewState.SUCCESS -> {
             view.visibility = View.VISIBLE
         }
-        ViewState.NOTHING, ViewState.LOADING -> {
+        ViewState.ERROR, ViewState.NOTHING, ViewState.LOADING -> {
             view.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("bindVisibilityErrorWeather")
+fun bindVisibilityErrorWeather(view: View, viewState: ViewState?) {
+    when (viewState) {
+        ViewState.SUCCESS, ViewState.LOADING, ViewState.NOTHING -> {
+            view.visibility = View.GONE
+        }
+        ViewState.ERROR -> {
+            view.visibility = View.VISIBLE
         }
     }
 }

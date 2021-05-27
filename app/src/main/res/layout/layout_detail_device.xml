@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="device"
+            type="org.d3ifcool.hystorms.model.Device" />
+
+        <variable
+            name="luminous"
+            type="org.d3ifcool.hystorms.model.SensorPhysic" />
+
+        <variable
+            name="humidity"
+            type="org.d3ifcool.hystorms.model.SensorPhysic" />
+
+        <variable
+            name="temp"
+            type="org.d3ifcool.hystorms.model.SensorPhysic" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_circle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@color/green_on_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_short_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{device.name.toUpperCase().substring(0,1)}"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img_circle"
+            app:layout_constraintEnd_toEndOf="@+id/img_circle"
+            app:layout_constraintStart_toStartOf="@+id/img_circle"
+            app:layout_constraintTop_toTopOf="@+id/img_circle"
+            tools:text="B" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@{device.name}"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            app:layout_constraintTop_toTopOf="@+id/img_circle"
+            tools:text="Bayam Tanki Banyak" />
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            android:text="@{device.deviceName}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_mac_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            tools:text="Raspberry Pi 4" />
+
+        <TextView
+            android:id="@+id/tv_mac_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@{device.name}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            tools:text="a4:a4:a4:a4" />
+
+        <TextView
+            android:id="@+id/tv_location_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:maxLines="1"
+            android:text="Lokasi : "
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/img_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_circle" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:maxLines="2"
+            android:text="@{device.address}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btn_edit_location"
+            app:layout_constraintStart_toEndOf="@+id/tv_location_title"
+            app:layout_constraintTop_toBottomOf="@+id/img_circle"
+            tools:text="Jalan Sukapura no 26, Bandung, Jawa Barat" />
+
+        <ImageButton
+            android:id="@+id/btn_edit_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_circle"
+            app:tint="@color/black" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/luminous_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:maxWidth="100dp"
+                android:text="Cahaya"
+                android:textColor="@color/white"
+                app:bindingChipIcon="@{luminous.isError}" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/humidity_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:maxWidth="100dp"
+                android:text="Kelembaban"
+                android:textColor="@color/white"
+                app:bindingChipIcon="@{humidity.isError}" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/temp_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:maxWidth="100dp"
+                android:text="Temperatur"
+                android:textColor="@color/white"
+                app:bindingChipIcon="@{temp.isError}" />
+        </com.google.android.material.chip.ChipGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
