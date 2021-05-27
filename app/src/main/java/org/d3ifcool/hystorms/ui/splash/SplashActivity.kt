@@ -43,19 +43,6 @@ class SplashActivity : AppCompatActivity() {
     private fun getUserData(uid: String) {
         viewModel.getUser(uid)
         viewModel.user.observe(this) { state ->
-//            if (dataOrException.data != null) {
-//                val user = dataOrException.data!!
-//                Action.showLog(user.toString())
-//                startActivity(Intent(this, MainActivity::class.java).apply {
-//                    putExtra(Constant.USER, user)
-//                })
-//                finish()
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let {
-//                    Action.showLog(it)
-//                }
-//            }
             when (state) {
                 is DataState.Canceled -> {
                     state.exception.message?.let {
@@ -77,7 +64,7 @@ class SplashActivity : AppCompatActivity() {
                     val user = state.data
                     Action.showLog(user.toString())
                     startActivity(Intent(this, MainActivity::class.java).apply {
-                        putExtra(Constant.USER, user)
+                        putExtra(Constant.USER, user.uid)
                     })
                     finish()
                 }

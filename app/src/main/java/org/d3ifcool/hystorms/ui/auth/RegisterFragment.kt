@@ -177,7 +177,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         Snackbar.LENGTH_INDEFINITE
                     )
                     val intent = Intent(requireActivity(), MainActivity::class.java)
-                    intent.putExtra(Constant.USER, user)
+                    intent.putExtra(Constant.USER, user.uid)
                     startActivity(intent)
                     requireActivity().finish()
                 }

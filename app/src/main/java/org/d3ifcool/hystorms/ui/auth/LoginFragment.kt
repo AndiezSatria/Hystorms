@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
@@ -26,14 +29,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoginBinding.bind(view)
-        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.viewModel = loginViewModel
+        val navHostFragment = NavHostFragment.findNavController(this)
+        val appBarConfiguration = AppBarConfiguration(navHostFragment.graph)
+
         binding.apply {
-            binding.btnForgetPass.setOnClickListener {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = loginViewModel
+
+            appBar.toolbar.setupWithNavController(navHostFragment, appBarConfiguration)
+            btnForgetPass.setOnClickListener {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToForgetPasswordFragment())
             }
-            binding.btnLogin.setOnClickListener {
+            btnLogin.setOnClickListener {
                 if (checkInput()) {
                     loginViewModel.signIn(getEmail(), getPass())
                 }
@@ -155,7 +163,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Snackbar.LENGTH_LONG
                     )
                     val intent = Intent(requireActivity(), MainActivity::class.java)
-                    intent.putExtra(Constant.USER, user)
+                    intent.putExtra(Constant.USER, user.uid)
                     startActivity(intent)
                     requireActivity().finish()
                 }
