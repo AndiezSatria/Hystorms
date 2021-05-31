@@ -25,12 +25,12 @@
     </fragment>
     <fragment
         android:id="@+id/encyclopediaFragment"
-        android:name="org.d3ifcool.hystorms.ui.main.home.EncyclopediaFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.encyclopedia.EncyclopediaFragment"
         android:label="Ensiklopedia"
         tools:layout="@layout/fragment_encyclopedia" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="org.d3ifcool.hystorms.ui.main.home.SettingsFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.SettingsFragment"
         android:label="Pengaturan"
         tools:layout="@layout/fragment_settings" >
         <argument
