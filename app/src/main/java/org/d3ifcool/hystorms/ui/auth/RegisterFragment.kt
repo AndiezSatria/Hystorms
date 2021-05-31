@@ -31,7 +31,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private lateinit var binding: FragmentRegisterBinding
     private val registerViewModel: RegisterViewModelNew by viewModels()
-//    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -184,91 +183,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             }
         }
     }
-//    private fun listenToAuthenticatedUser() {
-//        registerViewModel.authenticatedUser.observe(viewLifecycleOwner,
-//            { dataOrException ->
-//                if (dataOrException.data != null) {
-//                    var content = "Autentikasi akun selesai."
-//                    val user: User = dataOrException.data!!
-//                    val file: File? = getFileToUpload()
-//                    if (file != null) {
-//                        content += " Mengunggah foto profil."
-//                        registerViewModel.uploadProfile(user, file)
-//                    } else {
-//                        content += " Menyimpan data akun."
-//                        registerViewModel.saveUser(user)
-//                    }
-//                    Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-//                }
-//                if (dataOrException.exception != null) {
-//                    dataOrException.exception?.message?.let {
-//                        Action.showDialog(
-//                            "Error",
-//                            it,
-//                            requireContext(),
-//                            confirmListener = { alert ->
-//                                alert.dismissWithAnimation()
-//                            },
-//                            type = SweetAlertDialog.ERROR_TYPE
-//                        )
-//                    }
-//                }
-//            })
-//    }
-//
-//    private fun listenToUploadedProfileUser() {
-//        registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { dataOrException ->
-//            if (dataOrException.data != null) {
-//                val content = "Foto profil berhasil diunggah. Menyimpan data akun."
-//                val user: User = dataOrException.data!!
-//                registerViewModel.saveUser(user)
-//                Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let {
-//                    Action.showDialog(
-//                        "Error",
-//                        it,
-//                        requireContext(),
-//                        confirmListener = { alert ->
-//                            alert.dismissWithAnimation()
-//                        },
-//                        type = SweetAlertDialog.ERROR_TYPE
-//                    )
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun listenToSavedProfileUser() {
-//        registerViewModel.savedUser.observe(viewLifecycleOwner) { dataOrException ->
-//            if (dataOrException.data != null) {
-//                val content = "Akun berhasil disimpan. Silahkan masuk dengan akun Anda."
-//                Action.showSnackBar(
-//                    binding.coordinator,
-//                    content,
-//                    Snackbar.LENGTH_INDEFINITE,
-//                    textAction = "Masuk",
-//                    listener = {
-//                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-//                        registerViewModel.resetData()
-//                    })
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let {
-//                    Action.showDialog(
-//                        "Error",
-//                        it,
-//                        requireContext(),
-//                        confirmListener = { alert ->
-//                            alert.dismissWithAnimation()
-//                        },
-//                        type = SweetAlertDialog.ERROR_TYPE
-//                    )
-//                }
-//            }
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

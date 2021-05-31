@@ -62,7 +62,6 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
     private fun observeUser() {
         viewModel.user.observe(viewLifecycleOwner) {
             if (it != null) {
-                Action.showLog(it.toString())
                 viewModel.getDevices(it)
             }
         }
@@ -70,7 +69,9 @@ class DevicesFragment : Fragment(R.layout.fragment_devices) {
 
     private fun observeUid() {
         viewModel.uid.observe(viewLifecycleOwner) {
-            if (it != null) viewModel.getUserState(it)
+            if (it != null) {
+                viewModel.getUserState(it)
+            }
         }
     }
 

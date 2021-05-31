@@ -80,31 +80,6 @@ class ForgetPasswordFragment : Fragment(R.layout.fragment_forget_password) {
             }
         }
     }
-//    private fun observeResult() {
-//        forgotPasswordViewModel.resetPassResult.observe(viewLifecycleOwner) { dataOrException ->
-//            if (dataOrException.data != null) {
-//                Action.showSnackBar(
-//                    binding.coordinator,
-//                    "Email berhasil dikirim ke alamat email.",
-//                    Snackbar.LENGTH_SHORT
-//                )
-//                findNavController().navigate(ForgetPasswordFragmentDirections.actionForgetPasswordFragmentToLoginFragment())
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let { message ->
-//                    Action.showDialog(
-//                        "Error",
-//                        message,
-//                        requireContext(),
-//                        type = SweetAlertDialog.ERROR_TYPE,
-//                        confirmText = "Ok",
-//                        confirmListener = {
-//                            it.dismissWithAnimation()
-//                        })
-//                }
-//            }
-//        }
-//    }
 
     private fun checkInput(): Boolean {
         return if (binding.tfEmail.editText?.text.toString().trim() == "") {

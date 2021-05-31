@@ -80,59 +80,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
     }
-//     private fun observeSignInUid() {
-//        loginViewModel.authenticatedUid.observe(viewLifecycleOwner) { dataOrException ->
-//            if (dataOrException.data != null) {
-//                val uid = dataOrException.data!!
-//                loginViewModel.getUser(uid)
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let { message ->
-//                    Action.showDialog(
-//                        "Error",
-//                        message,
-//                        requireContext(),
-//                        confirmListener = {
-//                            it.dismissWithAnimation()
-//                        },
-//                        confirmText = "Ok",
-//                        type = SweetAlertDialog.ERROR_TYPE
-//                    )
-//                }
-//            }
-//        }
-//    }
-
-//    private fun observeLoggedInUser() {
-//        loginViewModel.loggedInUser.observe(viewLifecycleOwner) { dataOrException ->
-//            if (dataOrException.data != null) {
-//                val user = dataOrException.data!!
-//                Action.showSnackBar(
-//                    binding.coordinator,
-//                    "Berhasil login. Selamat datang ${user.name}",
-//                    Snackbar.LENGTH_SHORT
-//                )
-//                val intent = Intent(requireActivity(), MainActivity::class.java)
-//                intent.putExtra(Constant.USER, user)
-//                startActivity(intent)
-//                requireActivity().finish()
-//            }
-//            if (dataOrException.exception != null) {
-//                dataOrException.exception?.message?.let { message ->
-//                    Action.showDialog(
-//                        "Error",
-//                        message,
-//                        requireContext(),
-//                        confirmListener = {
-//                            it.dismissWithAnimation()
-//                        },
-//                        confirmText = "Ok",
-//                        type = SweetAlertDialog.ERROR_TYPE
-//                    )
-//                }
-//            }
-//        }
-//    }
 
     private fun observeLoggedInUser() {
         loginViewModel.loggedInUser.observe(viewLifecycleOwner) { state ->
