@@ -21,3 +21,19 @@ annotation class SensorPhysicReference
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class TanksReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ScheduleReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PlantReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class NutritionReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class HistoryReference

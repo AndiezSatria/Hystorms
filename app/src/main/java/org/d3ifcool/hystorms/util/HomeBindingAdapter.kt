@@ -103,6 +103,7 @@ fun bindBackgroundWeatherContainer(view: View, idMain: Int) {
     }
 }
 
+
 @BindingAdapter("bindMainTempText")
 fun bindMainTempText(textView: TextView, temp: Long) {
     textView.text = textView.context.getString(R.string.text_temp, temp)
@@ -121,4 +122,27 @@ fun bindHumidityText(textView: TextView, humidity: Long) {
 @BindingAdapter("bindWindSpeedText")
 fun bindWindSpeedText(textView: TextView, windSpeed: Long) {
     textView.text = textView.context.getString(R.string.text_wind_speed, windSpeed)
+}
+
+@BindingAdapter("bindAmountText")
+fun bindAmountText(textView: TextView, amount: Int) {
+    textView.text = textView.context.getString(R.string.text_amount, amount)
+}
+
+@BindingAdapter("bindProfileUrl")
+fun bindProfileUrl(imageView: ImageView, url: String?) {
+    if (url != null) {
+        val uri = url.toUri().buildUpon().scheme("https").build()
+        Glide.with(imageView.context)
+            .load(uri)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imageView)
+    } else {
+        Glide.with(imageView.context)
+            .load(R.drawable.ic_account)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imageView)
+    }
 }

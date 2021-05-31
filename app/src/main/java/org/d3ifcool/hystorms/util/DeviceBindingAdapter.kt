@@ -1,6 +1,8 @@
 package org.d3ifcool.hystorms.util
 
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.chip.Chip
 import org.d3ifcool.hystorms.R
@@ -18,5 +20,71 @@ fun bindingChipIcon(chip: Chip, isError: Boolean?) {
             chip.chipBackgroundColor =
                 ContextCompat.getColorStateList(chip.context, R.color.positive)
         }
+    }
+}
+
+@BindingAdapter("isHigher", "isLower", "dataSensor", requireAll = true)
+fun bindTextViewDrawable(
+    textView: TextView,
+    isHigher: Boolean,
+    isLower: Boolean,
+    dataSensor: Double?
+) {
+    textView.compoundDrawablePadding = 8
+    if (dataSensor != null) {
+        if (isHigher || isLower) {
+            textView.setCompoundDrawablesWithIntrinsicBounds(
+                R.drawable.ic_error_outline_white,
+                0,
+                0,
+                0
+            )
+            TextViewCompat.setCompoundDrawableTintList(
+                textView,
+                ContextCompat.getColorStateList(textView.context, R.color.caution)
+            )
+            textView.setTextColor(
+                ContextCompat.getColorStateList(
+                    textView.context,
+                    R.color.caution
+                )
+            )
+        } else {
+            textView.setCompoundDrawablesWithIntrinsicBounds(
+                R.drawable.ic_check_circle_outline_white,
+                0,
+                0,
+                0
+            )
+            TextViewCompat.setCompoundDrawableTintList(
+                textView,
+                ContextCompat.getColorStateList(textView.context, R.color.positive)
+            )
+            textView.setTextColor(
+                ContextCompat.getColorStateList(
+                    textView.context,
+                    R.color.positive
+                )
+            )
+        }
+    } else {
+        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error_outline_white, 0, 0, 0)
+        TextViewCompat.setCompoundDrawableTintList(
+            textView,
+            ContextCompat.getColorStateList(textView.context, R.color.negative)
+        )
+        textView.setTextColor(ContextCompat.getColorStateList(textView.context, R.color.negative))
+    }
+}
+
+@BindingAdapter("sensorData", "sensorName", requireAll = true)
+fun bindSensorData(textView: TextView, sensorData: Double?, name: String) {
+    if (sensorData != null) {
+        if (name.lowercase() == "temp" || name.lowercase() == "suhu") {
+            textView.text =
+                textView.context.getString(R.string.text_data_temp, (sensorData - 273).toLong())
+        } else textView.text = sensorData.toString()
+    } else {
+        textView.text = textView.context.getString(R.string.text_null)
     }
 }
