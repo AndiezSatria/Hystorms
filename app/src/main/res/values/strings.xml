@@ -20,12 +20,19 @@
     <string name="fab_profilepic_desc">Button to pick and delete picture</string>
 
     <!-- Main Page Strings   -->
+    <string name="text_null">Tidak ada data</string>
 
     <!-- Home Page Strings   -->
     <string name="text_temp">%1$d \u00B0C</string>
     <string name="text_humidity">Kelembaban : %1$d</string>
     <string name="text_wind_speed">Kecepatan Angin : %1$dm/s</string>
     <string name="text_feels_like">Berasa : %1$d\u00B0C</string>
+
+    <!-- Tank Page Strings   -->
+    <string name="text_amount">Jumlah : %1$d tanaman</string>
+    <string name="text_age">Umur : %1$d hari</string>
+    <string name="text_sensor_name">%1$s :</string>
+    <string name="text_data_temp">%1$d\u00B0C</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

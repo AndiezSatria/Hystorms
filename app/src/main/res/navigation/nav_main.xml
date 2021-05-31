@@ -8,19 +8,39 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="org.d3ifcool.hystorms.ui.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:label=""
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_deviceDetailFragment"
             app:destination="@id/deviceDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_tankDetailFragment"
+            app:destination="@id/tankDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailFragment"
         android:name="org.d3ifcool.hystorms.ui.main.device.DeviceDetailFragment"
         android:label="Detail Alat"
-        tools:layout="@layout/fragment_device_detail" >
+        tools:layout="@layout/fragment_device_detail">
         <argument
             android:name="device"
             app:argType="org.d3ifcool.hystorms.model.Device" />
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="org.d3ifcool.hystorms.model.User"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_deviceDetailFragment_to_tankDetailFragment"
+            app:destination="@id/tankDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tankDetailFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.tank.TankDetailFragment"
+        android:label="Detail Tanki"
+        tools:layout="@layout/fragment_tank_detail" >
+        <argument
+            android:name="tank"
+            app:argType="org.d3ifcool.hystorms.model.Tank" />
     </fragment>
 </navigation>
