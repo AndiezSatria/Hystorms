@@ -9,6 +9,9 @@ class Constant {
         const val SENSOR_PHYSIC: String = "sensor_physics"
         const val TANKS: String = "tanks"
         const val SCHEDULE: String = "schedules"
+        const val PLANTS: String = "plants"
+        const val NUTRITION: String = "nutrition"
+        const val HISTORIES: String = "histories"
         const val USER: String = "user_firebase"
         const val RC_PROFILE_IMAGE = 101
     }

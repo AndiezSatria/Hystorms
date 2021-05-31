@@ -17,10 +17,9 @@ import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
 import org.d3ifcool.hystorms.repository.splash.SplashRepositoryImpl
 import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
 import org.d3ifcool.hystorms.repository.device.DetailDeviceRepositoryImpl
-import org.d3ifcool.hystorms.util.DevicesReference
-import org.d3ifcool.hystorms.util.SensorPhysicReference
-import org.d3ifcool.hystorms.util.TanksReference
-import org.d3ifcool.hystorms.util.UserReference
+import org.d3ifcool.hystorms.repository.encyclopedia.EncyclopediaRepositoryImpl
+import org.d3ifcool.hystorms.repository.tank.DetailTankRepositoryImpl
+import org.d3ifcool.hystorms.util.*
 import javax.inject.Singleton
 
 @Module
@@ -61,7 +60,8 @@ object RepositoryModule {
         networkMapper: WeatherNetworkMapper,
         cacheMapper: WeatherCacheMapper,
         @TanksReference tankReference: CollectionReference,
-        @DevicesReference deviceRef: CollectionReference
+        @DevicesReference deviceRef: CollectionReference,
+        @ScheduleReference scheduleRef: CollectionReference
     ): HomeRepositoryImpl =
         HomeRepositoryImpl(
             weatherService,
@@ -69,7 +69,8 @@ object RepositoryModule {
             networkMapper,
             cacheMapper,
             tankReference,
-            deviceRef
+            deviceRef,
+            scheduleRef
         )
 
     @Singleton
@@ -86,4 +87,20 @@ object RepositoryModule {
         @UserReference userRef: CollectionReference
     ): DetailDeviceRepositoryImpl =
         DetailDeviceRepositoryImpl(tanksReference, physicReference, userRef)
+
+    @Singleton
+    @Provides
+    fun provideDetailTankRepository(
+        @PlantReference plantReference: CollectionReference,
+        @ScheduleReference scheduleRef: CollectionReference
+    ): DetailTankRepositoryImpl =
+        DetailTankRepositoryImpl(plantReference, scheduleRef)
+
+    @Singleton
+    @Provides
+    fun provideEncyclopediaRepository(
+        @PlantReference plantReference: CollectionReference,
+        @NutritionReference nutritionReference: CollectionReference
+    ): EncyclopediaRepositoryImpl =
+        EncyclopediaRepositoryImpl(plantReference, nutritionReference)
 }

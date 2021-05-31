@@ -79,4 +79,25 @@ object FirebaseModule {
     fun provideTanksReference(rootRef: FirebaseFirestore): CollectionReference {
         return rootRef.collection(Constant.TANKS)
     }
+
+    @ScheduleReference
+    @Singleton
+    @Provides
+    fun provideSchedulesReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.SCHEDULE)
+    }
+
+    @PlantReference
+    @Singleton
+    @Provides
+    fun providePlantsReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.PLANTS)
+    }
+
+    @NutritionReference
+    @Singleton
+    @Provides
+    fun provideNutritionReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.NUTRITION)
+    }
 }
