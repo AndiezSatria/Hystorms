@@ -6,10 +6,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.constant.Constant
-import org.d3ifcool.hystorms.model.Device
-import org.d3ifcool.hystorms.model.Tank
-import org.d3ifcool.hystorms.model.User
-import org.d3ifcool.hystorms.model.Weather
+import org.d3ifcool.hystorms.model.*
 import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
 import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
@@ -68,6 +65,7 @@ class HomeViewModel @Inject constructor(
         _weatherViewState.value = viewState
     }
 
+
     private val _weather: MutableLiveData<DataState<Weather>> = MutableLiveData()
     val weather: LiveData<DataState<Weather>>
         get() = _weather
@@ -80,13 +78,40 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private val _tankViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
+    val tankViewState: LiveData<ViewState>
+        get() = _tankViewState
+
+    fun setTankViewState(viewState: ViewState) {
+        _tankViewState.value = viewState
+    }
+
     private val _tanksDataState: MutableLiveData<DataState<List<Tank>>> = MutableLiveData()
     val tanksDataState: LiveData<DataState<List<Tank>>> = _tanksDataState
 
     fun getTanks(userId: String) {
         viewModelScope.launch {
             homeRepositoryImpl.getTanks(userId).onEach { dataState ->
-               _tanksDataState.value = dataState
+                _tanksDataState.value = dataState
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    private val _scheduleViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
+    val scheduleViewState: LiveData<ViewState>
+        get() = _scheduleViewState
+
+    fun setScheduleViewState(viewState: ViewState) {
+        _scheduleViewState.value = viewState
+    }
+
+    private val _schedulesDataState: MutableLiveData<DataState<List<Schedule>>> = MutableLiveData()
+    val schedulesDataState: LiveData<DataState<List<Schedule>>> = _schedulesDataState
+
+    fun getSchedule(userId: String, day: Int) {
+        viewModelScope.launch {
+            homeRepositoryImpl.getSchedules(userId, day).onEach { dataState ->
+                _schedulesDataState.value = dataState
             }.launchIn(viewModelScope)
         }
     }

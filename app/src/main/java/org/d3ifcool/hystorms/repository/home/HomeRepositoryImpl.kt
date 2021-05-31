@@ -12,6 +12,7 @@ import org.d3ifcool.hystorms.db.weather.WeatherDao
 import org.d3ifcool.hystorms.extension.FirebaseExtension.await
 import org.d3ifcool.hystorms.extension.FirebaseExtension.awaitRealtime
 import org.d3ifcool.hystorms.model.Device
+import org.d3ifcool.hystorms.model.Schedule
 import org.d3ifcool.hystorms.model.Tank
 import org.d3ifcool.hystorms.model.Weather
 import org.d3ifcool.hystorms.network.WeatherNetworkMapper
@@ -25,7 +26,7 @@ class HomeRepositoryImpl constructor(
     private val cacheMapper: WeatherCacheMapper,
     private val tankReference: CollectionReference,
     private val deviceReference: CollectionReference,
-    // Firestore Schedule Reference
+    private val scheduleReference: CollectionReference
 ) : HomeRepository {
 
     override suspend fun getWeather(
@@ -83,4 +84,22 @@ class HomeRepositoryImpl constructor(
             emit(DataState.error(response.error))
         }
     }
+
+    override suspend fun getSchedules(userId: String, day: Int): Flow<DataState<List<Schedule>>> =
+        flow {
+            emit(DataState.loading())
+            val todayDocRef =
+                scheduleReference.whereEqualTo("owner", userId).whereEqualTo("day", day)
+            val responseToday = todayDocRef.awaitRealtime()
+            if (responseToday.error == null) {
+                val schedules = responseToday.packet?.documents?.map { doc ->
+                    val schedule = doc.toObject(Schedule::class.java)!!
+                    schedule.id = doc.id
+                    schedule
+                }
+                emit(DataState.success(schedules ?: listOf()))
+            } else {
+                emit(DataState.error(responseToday.error))
+            }
+        }
 }
