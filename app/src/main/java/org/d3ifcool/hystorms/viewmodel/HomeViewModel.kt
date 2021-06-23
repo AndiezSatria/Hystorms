@@ -1,22 +1,25 @@
 package org.d3ifcool.hystorms.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.constant.Constant
 import org.d3ifcool.hystorms.model.*
-import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
-import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
+import org.d3ifcool.hystorms.repository.auth.AuthenticationRepository
+import org.d3ifcool.hystorms.repository.home.HomeRepository
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.ViewState
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepositoryImpl: HomeRepositoryImpl,
-    private val authenticationRepositoryImpl: AuthenticationRepositoryImpl,
+    private val homeRepositoryImpl: HomeRepository,
+    private val authenticationRepositoryImpl: AuthenticationRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _user: MutableLiveData<User> = MutableLiveData()
@@ -55,6 +58,22 @@ class HomeViewModel @Inject constructor(
                 }
             }.launchIn(viewModelScope)
         }
+    }
+
+    private val _isTankEmpty: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isTankEmpty: LiveData<Boolean>
+        get() = _isTankEmpty
+
+    fun setIsTankEmpty(boolean: Boolean) {
+        _isTankEmpty.value = boolean
+    }
+
+    private val _isScheduleEmpty: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isScheduleEmpty: LiveData<Boolean>
+        get() = _isScheduleEmpty
+
+    fun setIsScheduleEmpty(boolean: Boolean) {
+        _isScheduleEmpty.value = boolean
     }
 
     private val _weatherViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)

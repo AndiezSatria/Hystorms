@@ -16,6 +16,30 @@
         <action
             android:id="@+id/action_mainFragment_to_tankDetailFragment"
             app:destination="@id/tankDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_addNutritionFragment"
+            app:destination="@id/addNutritionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_dialogNutrition"
+            app:destination="@id/dialogNutrition" />
+        <action
+            android:id="@+id/action_mainFragment_to_dialogSchedule"
+            app:destination="@id/dialogSchedule" />
+        <action
+            android:id="@+id/action_mainFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_appInfoFragment"
+            app:destination="@id/appInfoFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_noitificationSettingFragment"
+            app:destination="@id/noitificationSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/deviceDetailFragment"
@@ -38,9 +62,138 @@
         android:id="@+id/tankDetailFragment"
         android:name="org.d3ifcool.hystorms.ui.main.tank.TankDetailFragment"
         android:label="Detail Tanki"
-        tools:layout="@layout/fragment_tank_detail" >
+        tools:layout="@layout/fragment_tank_detail">
+        <action
+            android:id="@+id/action_tankDetailFragment_to_addScheduleFragment"
+            app:destination="@id/addScheduleFragment" />
+        <argument
+            android:name="uid"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_tankDetailFragment_to_dialogSchedule"
+            app:destination="@id/dialogSchedule" />
+        <action
+            android:id="@+id/action_tankDetailFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_tankDetailFragment_to_editTankFragment"
+            app:destination="@id/editTankFragment" />
+        <argument
+            android:name="tankId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.EditProfileFragment"
+        android:label="Edit Profil"
+        tools:layout="@layout/fragment_edit_profile">
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="org.d3ifcool.hystorms.model.User"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.ChangePasswordFragment"
+        android:label="Ganti Password"
+        tools:layout="@layout/fragment_change_password">
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="org.d3ifcool.hystorms.model.User"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNutritionFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.encyclopedia.AddNutritionFragment"
+        android:label=""
+        tools:layout="@layout/fragment_add_nutrition">
+        <argument
+            android:name="nutrition"
+            android:defaultValue="@null"
+            app:argType="org.d3ifcool.hystorms.model.Nutrition"
+            app:nullable="true" />
+        <argument
+            android:name="uid"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addScheduleFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.tank.AddScheduleFragment"
+        android:label="fragment_add_schedule"
+        tools:layout="@layout/fragment_add_schedule">
+        <argument
+            android:name="uid"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="tankId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="schedule"
+            android:defaultValue="@null"
+            app:argType="org.d3ifcool.hystorms.model.Schedule"
+            app:nullable="true" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogSchedule"
+        android:name="org.d3ifcool.hystorms.ui.main.tank.DialogSchedule"
+        android:label="dialog_schedule"
+        tools:layout="@layout/dialog_schedule">
+        <argument
+            android:name="schedule"
+            app:argType="org.d3ifcool.hystorms.model.Schedule" />
+        <argument
+            android:name="daySelected"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </dialog>
+    <dialog
+        android:id="@+id/dialogNutrition"
+        android:name="org.d3ifcool.hystorms.ui.main.encyclopedia.DialogNutrition"
+        android:label="fragment_dialog_nutrition"
+        tools:layout="@layout/dialog_nutrition" >
+        <argument
+            android:name="nutrition"
+            app:argType="org.d3ifcool.hystorms.model.Nutrition" />
+    </dialog>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.HelpFragment"
+        android:label="Bantuan"
+        tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/appInfoFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.AppInfoFragment"
+        android:label=""
+        tools:layout="@layout/fragment_app_info" />
+    <fragment
+        android:id="@+id/noitificationSettingFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.settings.NotificationSettingFragment"
+        android:label="Pengaturan Notifikasi"
+        tools:layout="@layout/fragment_notification_setting" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="org.d3ifcool.hystorms.ui.main.tank.HistoryFragment"
+        android:label="Riwayat Data"
+        tools:layout="@layout/fragment_history" >
+        <argument
+            android:name="tankId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTankFragment"
+        android:name="org.d3ifcool.hystorms.EditTankFragment"
+        android:label="Edit Tanki"
+        tools:layout="@layout/fragment_edit_tank" >
         <argument
             android:name="tank"
-            app:argType="org.d3ifcool.hystorms.model.Tank" />
+            app:argType="org.d3ifcool.hystorms.model.Tank"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

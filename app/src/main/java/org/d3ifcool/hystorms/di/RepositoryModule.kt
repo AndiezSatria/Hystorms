@@ -12,13 +12,21 @@ import org.d3ifcool.hystorms.db.weather.WeatherDao
 import org.d3ifcool.hystorms.network.WeatherNetworkMapper
 import org.d3ifcool.hystorms.network.WeatherRetrofit
 import org.d3ifcool.hystorms.repository.AuthRepository
+import org.d3ifcool.hystorms.repository.auth.AuthenticationRepository
 import org.d3ifcool.hystorms.repository.device.DevicesRepositoryImpl
 import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
 import org.d3ifcool.hystorms.repository.splash.SplashRepositoryImpl
 import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
+import org.d3ifcool.hystorms.repository.device.DetailDeviceRepository
 import org.d3ifcool.hystorms.repository.device.DetailDeviceRepositoryImpl
+import org.d3ifcool.hystorms.repository.device.DevicesRepository
+import org.d3ifcool.hystorms.repository.encyclopedia.AddNutritionRepository
+import org.d3ifcool.hystorms.repository.encyclopedia.AddNutritionRepositoryImpl
+import org.d3ifcool.hystorms.repository.encyclopedia.EncyclopediaRepository
 import org.d3ifcool.hystorms.repository.encyclopedia.EncyclopediaRepositoryImpl
-import org.d3ifcool.hystorms.repository.tank.DetailTankRepositoryImpl
+import org.d3ifcool.hystorms.repository.home.HomeRepository
+import org.d3ifcool.hystorms.repository.setting.*
+import org.d3ifcool.hystorms.repository.tank.*
 import org.d3ifcool.hystorms.util.*
 import javax.inject.Singleton
 
@@ -41,7 +49,7 @@ object RepositoryModule {
         firebaseAuth: FirebaseAuth,
         @UserReference userRef: CollectionReference,
         storageReference: FirebaseStorage
-    ): AuthenticationRepositoryImpl {
+    ): AuthenticationRepository {
         return AuthenticationRepositoryImpl(firebaseAuth, userRef, storageReference)
     }
 
@@ -55,14 +63,14 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideHomeRepository(
-        weatherService: WeatherRetrofit,
+        @WeatherService weatherService: WeatherRetrofit,
         weatherDao: WeatherDao,
         networkMapper: WeatherNetworkMapper,
         cacheMapper: WeatherCacheMapper,
         @TanksReference tankReference: CollectionReference,
         @DevicesReference deviceRef: CollectionReference,
         @ScheduleReference scheduleRef: CollectionReference
-    ): HomeRepositoryImpl =
+    ): HomeRepository =
         HomeRepositoryImpl(
             weatherService,
             weatherDao,
@@ -76,31 +84,96 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideDevicesRepository(
-        @DevicesReference deviceRef: CollectionReference
-    ): DevicesRepositoryImpl = DevicesRepositoryImpl(deviceRef)
+        @DevicesReference deviceRef: CollectionReference,
+        @TanksReference tankRef: CollectionReference
+    ): DevicesRepository = DevicesRepositoryImpl(deviceRef, tankRef)
 
     @Singleton
     @Provides
     fun provideDetailDeviceRepository(
         @TanksReference tanksReference: CollectionReference,
         @SensorPhysicReference physicReference: CollectionReference,
-        @UserReference userRef: CollectionReference
-    ): DetailDeviceRepositoryImpl =
-        DetailDeviceRepositoryImpl(tanksReference, physicReference, userRef)
+        @UserReference userRef: CollectionReference,
+        @DevicesReference deviceRef: CollectionReference,
+        @WeatherService weatherService: WeatherRetrofit,
+        weatherDao: WeatherDao,
+        networkMapper: WeatherNetworkMapper,
+        cacheMapper: WeatherCacheMapper
+    ): DetailDeviceRepository =
+        DetailDeviceRepositoryImpl(
+            tanksReference,
+            physicReference,
+            userRef,
+            deviceRef,
+            weatherService,
+            weatherDao,
+            networkMapper,
+            cacheMapper
+        )
 
     @Singleton
     @Provides
     fun provideDetailTankRepository(
         @PlantReference plantReference: CollectionReference,
+        @TanksReference tankReference: CollectionReference,
         @ScheduleReference scheduleRef: CollectionReference
-    ): DetailTankRepositoryImpl =
-        DetailTankRepositoryImpl(plantReference, scheduleRef)
+    ): DetailTankRepository =
+        DetailTankRepositoryImpl(plantReference,tankReference, scheduleRef)
 
     @Singleton
     @Provides
     fun provideEncyclopediaRepository(
         @PlantReference plantReference: CollectionReference,
         @NutritionReference nutritionReference: CollectionReference
-    ): EncyclopediaRepositoryImpl =
+    ): EncyclopediaRepository =
         EncyclopediaRepositoryImpl(plantReference, nutritionReference)
+
+    @Singleton
+    @Provides
+    fun provideSettingRepository(
+        @UserReference userReference: CollectionReference,
+        firebaseAuth: FirebaseAuth
+    ): SettingRepository =
+        SettingRepositoryImpl(userReference, firebaseAuth)
+
+    @Singleton
+    @Provides
+    fun provideEditProfileRepository(
+        storageReference: FirebaseStorage,
+        @UserReference userReference: CollectionReference
+    ): EditProfileRepository =
+        EditProfileRepositoryImpl(userReference, storageReference)
+
+    @Singleton
+    @Provides
+    fun provideChangePasswordRepository(
+        firebaseAuth: FirebaseAuth
+    ): ChangePasswordRepository =
+        ChangePasswordRepositoryImpl(firebaseAuth)
+
+    @Singleton
+    @Provides
+    fun provideAddNutritionRepository(
+        firebaseStorage: FirebaseStorage,
+        @NutritionReference nutritionReference: CollectionReference
+    ): AddNutritionRepository = AddNutritionRepositoryImpl(firebaseStorage, nutritionReference)
+
+    @Singleton
+    @Provides
+    fun provideAddScheduleRepository(
+        @ScheduleReference scheduleRef: CollectionReference
+    ): AddScheduleRepository = AddScheduleRepositoryImpl(scheduleRef)
+
+    @Singleton
+    @Provides
+    fun provideHistoryRepository(
+        @HistoryReference historyRef: CollectionReference
+    ): HistoryRepository = HistoryRepositoryImpl(historyRef)
+
+    @Singleton
+    @Provides
+    fun provideEditTankRepository(
+        @TanksReference tankRef: CollectionReference,
+        firebaseStorage: FirebaseStorage
+    ): EditTankRepository = EditTankRepositoryImpl(tankRef, firebaseStorage)
 }

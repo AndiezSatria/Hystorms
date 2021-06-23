@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.d3ifcool.hystorms.constant.Constant
@@ -37,38 +38,43 @@ class AuthenticationRepositoryImpl constructor(
                     emit(DataState.canceled(state.exception))
                 }
             }
+        }.catch {
+            emit(DataState.errorThrowable(it))
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun uploadImageToStorage(file: File, user: User): Flow<DataState<User>> = flow {
-        emit(DataState.loading())
-        val fileRef = storageRef.reference.child(
-            "${Constant.PROFILE_PICTURE}/${file.name}"
-        )
-        when (val uploadTask = fileRef.putFile(Uri.fromFile(file)).await()) {
-            is DataState.Success -> {
-                when (val downloadUrlTask = uploadTask.data.storage.downloadUrl.await()) {
-                    is DataState.Success -> {
-                        val downloadUrl = downloadUrlTask.data.toString()
-                        emit(DataState.success(user.copy(photoUrl = downloadUrl)))
-                    }
-                    is DataState.Error -> {
-                        emit(DataState.error(downloadUrlTask.exception))
-                    }
-                    is DataState.Canceled -> {
-                        emit(DataState.canceled(downloadUrlTask.exception))
+    override suspend fun uploadImageToStorage(file: File, user: User): Flow<DataState<User>> =
+        flow {
+            emit(DataState.loading())
+            val fileRef = storageRef.reference.child(
+                "${Constant.PROFILE_PICTURE}/${file.name}"
+            )
+            when (val uploadTask = fileRef.putFile(Uri.fromFile(file)).await()) {
+                is DataState.Success -> {
+                    when (val downloadUrlTask = uploadTask.data.storage.downloadUrl.await()) {
+                        is DataState.Success -> {
+                            val downloadUrl = downloadUrlTask.data.toString()
+                            emit(DataState.success(user.copy(photoUrl = downloadUrl)))
+                        }
+                        is DataState.Error -> {
+                            emit(DataState.error(downloadUrlTask.exception))
+                        }
+                        is DataState.Canceled -> {
+                            emit(DataState.canceled(downloadUrlTask.exception))
+                        }
                     }
                 }
+                is DataState.Error -> {
+                    emit(DataState.error(uploadTask.exception))
+                }
+                is DataState.Canceled -> {
+                    emit(DataState.canceled(uploadTask.exception))
+                }
             }
-            is DataState.Error -> {
-                emit(DataState.error(uploadTask.exception))
-            }
-            is DataState.Canceled -> {
-                emit(DataState.canceled(uploadTask.exception))
-            }
-        }
 
-    }.flowOn(Dispatchers.IO)
+        }.catch {
+            emit(DataState.errorThrowable(it))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun createUserInFirestore(user: User): Flow<DataState<User>> = flow {
         emit(DataState.loading())
@@ -84,27 +90,32 @@ class AuthenticationRepositoryImpl constructor(
                 emit(DataState.canceled(setTask.exception))
             }
         }
+    }.catch {
+        emit(DataState.errorThrowable(it))
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun signInUser(email: String, password: String): Flow<DataState<String>> = flow {
-        emit(DataState.loading())
+    override suspend fun signInUser(email: String, password: String): Flow<DataState<String>> =
+        flow {
+            emit(DataState.loading())
 
-        when (val state = firebaseAuth.signInWithEmailAndPassword(email, password).await()) {
-            is DataState.Success -> {
-                val firebaseUser = state.data.user
-                if (firebaseUser != null) {
-                    val uid = firebaseUser.uid
-                    emit(DataState.success(uid))
+            when (val state = firebaseAuth.signInWithEmailAndPassword(email, password).await()) {
+                is DataState.Success -> {
+                    val firebaseUser = state.data.user
+                    if (firebaseUser != null) {
+                        val uid = firebaseUser.uid
+                        emit(DataState.success(uid))
+                    }
+                }
+                is DataState.Error -> {
+                    emit(DataState.error(state.exception))
+                }
+                is DataState.Canceled -> {
+                    emit(DataState.canceled(state.exception))
                 }
             }
-            is DataState.Error -> {
-                emit(DataState.error(state.exception))
-            }
-            is DataState.Canceled -> {
-                emit(DataState.canceled(state.exception))
-            }
-        }
-    }.flowOn(Dispatchers.IO)
+        }.catch {
+            emit(DataState.errorThrowable(it))
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun getUser(uid: String): Flow<DataState<User>> = flow {
         emit(DataState.loading())
@@ -121,6 +132,31 @@ class AuthenticationRepositoryImpl constructor(
                 emit(DataState.canceled(state.exception))
             }
         }
+    }.catch {
+        emit(DataState.errorThrowable(it))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getUserLogin(uid: String, token: String): Flow<DataState<User>> = flow {
+        emit(DataState.loading())
+
+        when (val state = userRef.document(uid).get().await()) {
+            is DataState.Success -> {
+                val user = state.data.toObject(User::class.java)!!
+                when (val updateState = userRef.document(uid).update("token", token).await()) {
+                    is DataState.Canceled -> emit(DataState.canceled(updateState.exception))
+                    is DataState.Error -> emit(DataState.error(updateState.exception))
+                    is DataState.Success -> emit(DataState.success(user.copy(token = token)))
+                }
+            }
+            is DataState.Error -> {
+                emit(DataState.error(state.exception))
+            }
+            is DataState.Canceled -> {
+                emit(DataState.canceled(state.exception))
+            }
+        }
+    }.catch {
+        emit(DataState.errorThrowable(it))
     }.flowOn(Dispatchers.IO)
 
     override suspend fun resetPassword(email: String): Flow<DataState<String>> = flow {
@@ -138,5 +174,7 @@ class AuthenticationRepositoryImpl constructor(
                 emit(DataState.canceled(state.exception))
             }
         }
+    }.catch {
+        emit(DataState.errorThrowable(it))
     }.flowOn(Dispatchers.IO)
 }

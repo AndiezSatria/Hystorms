@@ -24,7 +24,6 @@ object FirebaseExtension {
                 if (isCanceled)
                     DataState.Canceled(CancellationException("Task $this was cancelled normally."))
                 else DataState.Success(result as T)
-
             } else {
                 DataState.Error(e)
             }

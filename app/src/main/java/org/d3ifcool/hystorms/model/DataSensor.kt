@@ -8,4 +8,8 @@ data class DataSensor(
     var data: Double? = 0.0,
     @field:JvmField var isLowerFromOptimum: Boolean = false,
     @field:JvmField var isHigherFromOptimum: Boolean = false
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        return "$name: $data"
+    }
+}

@@ -5,18 +5,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.d3ifcool.hystorms.model.Condition
-import org.d3ifcool.hystorms.model.Device
-import org.d3ifcool.hystorms.model.Tank
-import org.d3ifcool.hystorms.model.User
+import org.d3ifcool.hystorms.model.*
+import org.d3ifcool.hystorms.repository.device.DetailDeviceRepository
 import org.d3ifcool.hystorms.repository.device.DetailDeviceRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
+import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailDeviceViewModel @Inject constructor(
-    private val repositoryImpl: DetailDeviceRepositoryImpl,
+    private val repositoryImpl: DetailDeviceRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _isFavorite: MutableLiveData<Boolean> = MutableLiveData(
@@ -38,6 +37,14 @@ class DetailDeviceViewModel @Inject constructor(
     private val _conditionState: MutableLiveData<DataState<Condition>> = MutableLiveData()
     val conditionState: LiveData<DataState<Condition>>
         get() = _conditionState
+
+    private val _condition: MutableLiveData<List<SensorPhysic>> = MutableLiveData()
+    val condition: LiveData<List<SensorPhysic>>
+        get() = _condition
+
+    fun setCondition(conditionGet: List<SensorPhysic>) {
+        _condition.value = conditionGet
+    }
 
     private val _tanksState: MutableLiveData<DataState<List<Tank>>> = MutableLiveData()
     val tanksState: LiveData<DataState<List<Tank>>>
@@ -61,17 +68,140 @@ class DetailDeviceViewModel @Inject constructor(
         _snackbarMessage.value = null
     }
 
+    private val _myAddress: MutableLiveData<MyAddress> = MutableLiveData()
+    val myAddress: LiveData<MyAddress> = _myAddress
+    fun setMyAddress(address: MyAddress?) {
+        _myAddress.value = address
+    }
+
+    private val _weatherViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
+    val weatherViewState: LiveData<ViewState>
+        get() = _weatherViewState
+
+    fun setWeatherViewState(viewState: ViewState) {
+        _weatherViewState.value = viewState
+    }
+
+
+    private val _weather: MutableLiveData<Weather> = MutableLiveData()
+    val weather: LiveData<Weather>
+        get() = _weather
+
+    fun getWeather(lat: Double, long: Double, language: String) {
+        viewModelScope.launch {
+            repositoryImpl.getWeather(lat, long, language).onEach {
+                when(it) {
+                    is DataState.Canceled -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.exception.message
+                        _weatherViewState.value = ViewState.ERROR
+                    }
+                    is DataState.Error -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.exception.message
+                        _weatherViewState.value = ViewState.ERROR
+                    }
+                    is DataState.Loading -> {
+                        EspressoIdlingResource.increment()
+                        _weatherViewState.value = ViewState.LOADING
+                    }
+                    is DataState.Success -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _weatherViewState.value = ViewState.SUCCESS
+                        _weather.value = it.data
+                    }
+                    is DataState.ErrorThrowable -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.throwable.message
+                        _weatherViewState.value = ViewState.ERROR
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
     fun setFavorite(deviceId: String?, userId: String) {
         viewModelScope.launch {
             repositoryImpl.setFavorite(deviceId, userId).onEach { dataState ->
                 when (dataState) {
-                    is DataState.Canceled -> _snackbarMessage.value = dataState.exception.message
-                    is DataState.Error -> _snackbarMessage.value = dataState.exception.message
+                    is DataState.Canceled -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = dataState.exception.message
+                    }
+                    is DataState.Error -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = dataState.exception.message
+                    }
                     is DataState.Loading -> {
+                        EspressoIdlingResource.increment()
                     }
                     is DataState.Success -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
                         _snackbarMessage.value = dataState.data
                         _isFavorite.value = deviceId != null
+                    }
+                    is DataState.ErrorThrowable -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = dataState.throwable.message
+                        _detailViewState.value = ViewState.SUCCESS
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun updateLocation(address: MyAddress, device: Device) {
+        viewModelScope.launch {
+            repositoryImpl.updateLocation(address, device).onEach {
+                when (it) {
+                    is DataState.Canceled -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.exception.message
+                        _detailViewState.value = ViewState.SUCCESS
+                    }
+                    is DataState.Error -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.exception.message
+                        _detailViewState.value = ViewState.SUCCESS
+                    }
+                    is DataState.Loading -> {
+                        EspressoIdlingResource.increment()
+                        _detailViewState.value = ViewState.LOADING
+                    }
+                    is DataState.Success -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = "Berhasil mengubah lokasi"
+                        _detailViewState.value = ViewState.SUCCESS
+                        _device.value = it.data
+                    }
+                    is DataState.ErrorThrowable -> {
+                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+                        _snackbarMessage.value = it.throwable.message
+                        _detailViewState.value = ViewState.SUCCESS
                     }
                 }
             }.launchIn(viewModelScope)

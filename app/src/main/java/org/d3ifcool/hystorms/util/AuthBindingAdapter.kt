@@ -24,18 +24,27 @@ fun bindWithFile(imgView: ImageView, file: File?) {
 }
 
 @BindingAdapter(value = ["buttonUploadState", "viewState"], requireAll = false)
-fun bindFabProfileState(fab: FloatingActionButton, buttonUploadState: ButtonUploadState?, viewState: ViewState?) {
+fun bindFabProfileState(
+    fab: FloatingActionButton,
+    buttonUploadState: ButtonUploadState?,
+    viewState: ViewState?
+) {
     when (buttonUploadState) {
         ButtonUploadState.ADD -> {
             fab.backgroundTintList = ContextCompat.getColorStateList(fab.context, R.color.positive)
-            fab.setImageDrawable(ContextCompat.getDrawable(fab.context, R.drawable.ic_add_white))
+            fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    fab.context,
+                    R.drawable.ic_photo_camera_white
+                )
+            )
         }
         else -> {
             fab.backgroundTintList = ContextCompat.getColorStateList(fab.context, R.color.negative)
             fab.setImageDrawable(ContextCompat.getDrawable(fab.context, R.drawable.ic_delete_white))
         }
     }
-    when(viewState) {
+    when (viewState) {
         LOADING, SUCCESS -> fab.isClickable = false
         else -> fab.isClickable = true
     }
@@ -57,6 +66,7 @@ fun bindLoadingButtonState(button: CircularProgressButton, state: ViewState) {
                     it.toBitmap()
                 )
             }
+            button.tag = R.drawable.ic_error_white
         }
         SUCCESS -> {
             ContextCompat.getDrawable(button.context, R.drawable.ic_done_white)?.let {
@@ -65,6 +75,7 @@ fun bindLoadingButtonState(button: CircularProgressButton, state: ViewState) {
                     it.toBitmap()
                 )
             }
+            button.tag = R.drawable.ic_done_white
         }
     }
 }
@@ -83,13 +94,35 @@ fun bindLoadingEditTextState(editText: TextInputEditText, state: ViewState) {
 
 @BindingAdapter("bindImageUrl")
 fun bindImageUrl(imageView: ImageView, url: String?) {
-    url?.let {
+    if (url != null) {
         val uri = url.toUri().buildUpon().scheme("https").build()
         Glide.with(imageView.context)
             .load(uri)
             .placeholder(R.drawable.loading_animation)
             .error(R.drawable.ic_broken_image)
             .into(imageView)
+    } else {
+        Glide.with(imageView.context)
+            .load(R.drawable.logo_hystorms)
+            .into(imageView)
+    }
+}
+
+@BindingAdapter("fileToUpload", "url")
+fun bindEditProfilePic(imgView: ImageView, fileToUpload: File?, url: String?) {
+    if (url != null) {
+        val uri = url.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(uri)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imgView)
+    } else {
+        Glide.with(imgView.context)
+            .load(fileToUpload ?: R.drawable.ic_account)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imgView)
     }
 }
 

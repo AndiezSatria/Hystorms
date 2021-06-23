@@ -4,6 +4,7 @@ sealed class DataState<out T> {
     class Loading<out T> : DataState<T>()
     data class Success<out T>(val data: T) : DataState<T>()
     data class Error(val exception: Exception) : DataState<Nothing>()
+    data class ErrorThrowable(val throwable: Throwable) : DataState<Nothing>()
     data class Canceled(val exception: Exception) : DataState<Nothing>()
 
     override fun toString(): String {
@@ -11,6 +12,7 @@ sealed class DataState<out T> {
             is Loading<*> -> "Loading..."
             is Success<*> -> "Success[data=$data]"
             is Error -> "Error[exception=$exception]"
+            is ErrorThrowable -> "Error[exception=$throwable]"
             is Canceled -> "Canceled[exception=$exception]"
         }
     }
@@ -19,6 +21,7 @@ sealed class DataState<out T> {
         fun <T> loading() = Loading<T>()
         fun <T> success(data: T) = Success(data)
         fun error(exception: Exception) = Error(exception)
+        fun errorThrowable(throwable: Throwable) = ErrorThrowable(throwable)
         fun canceled(exception: Exception) = Canceled(exception)
     }
 }

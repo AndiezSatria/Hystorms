@@ -7,9 +7,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.databinding.FragmentSplashBinding
 
+@AndroidEntryPoint
 class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     private lateinit var binding: FragmentSplashBinding

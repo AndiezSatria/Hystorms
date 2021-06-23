@@ -37,3 +37,19 @@ annotation class NutritionReference
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class HistoryReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class WeatherRetrofitBuilder
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AddressRetrofitBuilder
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class WeatherService
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AddressService

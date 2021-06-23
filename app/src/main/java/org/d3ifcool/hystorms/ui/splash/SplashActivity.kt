@@ -68,6 +68,13 @@ class SplashActivity : AppCompatActivity() {
                     })
                     finish()
                 }
+                is DataState.ErrorThrowable -> {
+                    state.throwable.message?.let {
+                        Action.showLog(it)
+                        Action.showToast(this, it, Toast.LENGTH_LONG)
+                    }
+                    finishAndRemoveTask()
+                }
             }
         }
     }

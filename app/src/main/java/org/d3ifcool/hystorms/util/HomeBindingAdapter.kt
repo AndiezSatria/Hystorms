@@ -9,6 +9,8 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import org.d3ifcool.hystorms.R
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 @BindingAdapter("weatherIconImage")
 fun weatherIconImage(imageView: ImageView, idIcon: String?) {
@@ -127,6 +129,16 @@ fun bindWindSpeedText(textView: TextView, windSpeed: Long) {
 @BindingAdapter("bindAmountText")
 fun bindAmountText(textView: TextView, amount: Int) {
     textView.text = textView.context.getString(R.string.text_amount, amount)
+}
+
+@BindingAdapter("bindAgeText")
+fun bindAgeText(textView: TextView, createdAt: Date?) {
+    if (createdAt != null) {
+        val dateNow = Calendar.getInstance().time
+        val diff: Long = dateNow.time - createdAt.time
+        val days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
+        textView.text = textView.context.getString(R.string.text_age, days)
+    }
 }
 
 @BindingAdapter("bindProfileUrl")

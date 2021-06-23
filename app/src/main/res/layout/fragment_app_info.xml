@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.settings.AppInfoFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_splash">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/normal_appbarlayout" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/logo_hystorms"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/text_hystorms_logo" />
+
+                <ImageView
+                    android:id="@+id/logo_text"
+                    android:layout_width="200dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/text_hystorms"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo"
+                    android:contentDescription="@string/text_hystorms_logo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
+                    android:text="@string/made_in"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/logo_text" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

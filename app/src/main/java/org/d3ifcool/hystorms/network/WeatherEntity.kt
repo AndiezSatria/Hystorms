@@ -1,11 +1,9 @@
 package org.d3ifcool.hystorms.network
 
-import kotlinx.parcelize.RawValue
-
 data class WeatherEntity(
-    val weather: @RawValue List<Weathers>,
-    val main: @RawValue MainDataWeather,
-    val wind: @RawValue Wind,
+    val weather: List<Weathers>,
+    val main: MainDataWeather,
+    val wind: Wind,
     val name: String
 )
 

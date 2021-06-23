@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        tools:context=".ui.main.settings.NotificationSettingFragment">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/normal_appbarlayout" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <TextView
+                android:id="@+id/tv_title_daily"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="@string/text_daily_reminder"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/switchMaterial"
+                app:layout_constraintEnd_toStartOf="@+id/switchMaterial"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/switchMaterial" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchMaterial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_daily_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/normal_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:text="@string/text_reminder_desc"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchMaterial" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

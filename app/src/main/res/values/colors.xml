@@ -15,4 +15,21 @@
     <color name="negative">#FFFF5C83</color>
     <color name="caution">#FFeed202</color>
     <color name="gray_background">#FFDDDDDD</color>
+    <color name="colorSelected">#FFB2EBF2</color>
+
+    <color name="color_luminous">#4303DA</color>
+    <color name="color_temperature">#0376DA</color>
+    <color name="color_humidity">#FF03DAC5</color>
+    <color name="color_ph">#03DA20</color>
+
+    <color name="selected_background_color">#15a4fa</color>
+    <color name="unselected_background_color">#ffffff</color>
+    <color name="shadow_background_color">#28415f</color>
+    <color name="unselected_header_background_color">#FFF6F6DE</color>
+
+    <color name="unselected_text_color">#0a0a0a</color>
+    <color name="selected_text_color">#ffffff</color>
+    <color name="separator_color">#273e5b</color>
+
+    <color name="popup_menu_item_text_color">#88a5c9</color>
 </resources>

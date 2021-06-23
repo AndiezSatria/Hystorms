@@ -100,4 +100,11 @@ object FirebaseModule {
     fun provideNutritionReference(rootRef: FirebaseFirestore): CollectionReference {
         return rootRef.collection(Constant.NUTRITION)
     }
+
+    @HistoryReference
+    @Singleton
+    @Provides
+    fun provideHistoryReference(rootRef: FirebaseFirestore): CollectionReference {
+        return rootRef.collection(Constant.HISTORIES)
+    }
 }

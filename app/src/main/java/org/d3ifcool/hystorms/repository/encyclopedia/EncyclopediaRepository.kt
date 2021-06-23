@@ -7,5 +7,7 @@ import org.d3ifcool.hystorms.state.DataState
 
 interface EncyclopediaRepository {
     suspend fun getPlants(): Flow<DataState<List<Plant>>>
+    suspend fun getNutrition(uid: String): Flow<DataState<List<Nutrition>>>
+    suspend fun deleteItems(listOfId: List<String>): Flow<DataState<String>>
     suspend fun getNutrition(): Flow<DataState<List<Nutrition>>>
 }

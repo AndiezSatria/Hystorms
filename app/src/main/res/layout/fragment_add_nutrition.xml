@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.encyclopedia.AddNutritionFragment">
+
+    <data>
+
+        <variable
+            name="nutritionViewModel"
+            type="org.d3ifcool.hystorms.viewmodel.AddNutritionViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        android:fitsSystemWindows="false">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:title="@{nutritionViewModel.isEdit() ? @string/edit_nutrition_title : @string/add_nutrition_title}"
+                    app:titleTextColor="@color/green_on_primary" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:bindProgress="@{nutritionViewModel.viewState}"
+                    app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+                    app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                    app:layout_constraintTop_toTopOf="@+id/toolbar" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:contentDescription="@string/nutrition_image_desc"
+                    android:id="@+id/img_preview"
+                    android:layout_width="250dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:background="@color/gray_background"
+                    android:scaleType="centerCrop"
+                    app:fileToUpload="@{nutritionViewModel.fileToUpload}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:url="@{nutritionViewModel.url}"
+                    tools:src="@drawable/il_shower_rain" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:clickable="true"
+                    android:contentDescription="@string/fab_profilepic_desc"
+                    android:src="@drawable/ic_photo_camera_white"
+                    app:buttonUploadState="@{nutritionViewModel.buttonState}"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_preview"
+                    app:layout_constraintEnd_toEndOf="@+id/img_preview"
+                    app:viewState="@{nutritionViewModel.viewState}" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:hint="@string/text_nutrition_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_preview">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text='@{nutritionViewModel.nutritionEdit.name ?? ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_ppm"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:hint="@string/text_ppm"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tf_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_ppm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:text='@{nutritionViewModel.nutritionEdit.ppm != null ? String.valueOf(nutritionViewModel.nutritionEdit.ppm) : ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:hint="@string/text_nutrient_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tf_ppm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text='@{nutritionViewModel.nutritionEdit.nutrientContent ?? ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_usage"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:hint="@string/text_how_usage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tf_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_usage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|start"
+                        android:lines="4"
+                        android:maxLines="5"
+                        android:minLines="3"
+                        android:scrollbars="vertical"
+                        android:text='@{nutritionViewModel.nutritionEdit.usage ?? ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_effect"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:hint="@string/text_nutrient_effect"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tf_usage">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_effect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text='@{nutritionViewModel.nutritionEdit.effect ?? ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tf_description"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginBottom="24dp"
+                    android:hint="@string/text_nutrient_description"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tf_effect">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|start"
+                        android:lines="6"
+                        android:maxLines="8"
+                        android:minLines="4"
+                        android:text='@{nutritionViewModel.nutritionEdit.description ?? ""}'
+                        app:bindLoadingEditTextState="@{nutritionViewModel.viewState}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:src="@drawable/leku_ic_check_light"
+            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+            android:contentDescription="@string/text_button_done" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

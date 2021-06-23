@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.d3ifcool.hystorms.ui.main.home.HomeFragment"
-        android:label="Home"
+        android:label="Beranda"
         tools:layout="@layout/fragment_home" >
         <argument
             android:name="user"

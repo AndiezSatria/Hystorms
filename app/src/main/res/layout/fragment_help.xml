@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        tools:context=".ui.main.settings.HelpFragment">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/normal_appbarlayout" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:contentDescription="@string/text_tank_image_desc"
+                    android:id="@+id/img_help"
+                    android:layout_width="225dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/il_forgot_password"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_device_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:text="@string/device_and_tank"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/img_help" />
+
+                <TextView
+                    android:id="@+id/tv_device_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:text="@string/device_help"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_device_title" />
+
+                <TextView
+                    android:id="@+id/tv_plant_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:text="@string/plants_and_nutrition"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_device_help" />
+
+                <TextView
+                    android:id="@+id/tv_plant_help"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
+                    android:text="@string/encyclopedia_help"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_plant_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

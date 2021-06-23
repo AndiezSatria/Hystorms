@@ -3,17 +3,17 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home_black"
-        android:title="Home" />
+        android:title="@string/text_home" />
     <item
         android:id="@+id/devicesFragment"
         android:icon="@drawable/ic_sensors_black"
-        android:title="Daftar Alat" />
+        android:title="@string/text_devices" />
     <item
         android:id="@+id/encyclopediaFragment"
         android:icon="@drawable/ic_library_books_black"
-        android:title="Ensiklopedia" />
+        android:title="@string/text_encyclopedia" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings_black"
-        android:title="Pengaturan" />
+        android:title="@string/text_settings" />
 </menu>

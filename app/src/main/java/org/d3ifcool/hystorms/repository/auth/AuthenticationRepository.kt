@@ -11,5 +11,6 @@ interface AuthenticationRepository {
     suspend fun createUserInFirestore(user: User): Flow<DataState<User>>
     suspend fun signInUser(email: String, password: String): Flow<DataState<String>>
     suspend fun getUser(uid: String): Flow<DataState<User>>
+    suspend fun getUserLogin(uid: String, token: String): Flow<DataState<User>>
     suspend fun resetPassword(email: String): Flow<DataState<String>>
 }

@@ -13,7 +13,7 @@ import org.d3ifcool.hystorms.databinding.FragmentMainBinding
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private lateinit var binding: FragmentMainBinding
+    lateinit var binding: FragmentMainBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)

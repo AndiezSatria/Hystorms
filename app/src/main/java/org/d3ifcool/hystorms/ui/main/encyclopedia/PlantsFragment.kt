@@ -2,9 +2,7 @@ package org.d3ifcool.hystorms.ui.main.encyclopedia
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +22,8 @@ class PlantsFragment : Fragment(R.layout.fragment_plants) {
     private val handler = object : ItemClickHandler<Plant> {
         override fun onClick(item: Plant) {
             // Go To plant detail bottom sheet
+            DetailPlantBottomSheet.newInstance(item)
+                .show(requireActivity().supportFragmentManager, "DetailPlantBottomSheet")
         }
 
         override fun onItemDelete(item: Plant) {}

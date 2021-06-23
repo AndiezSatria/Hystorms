@@ -6,105 +6,105 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/img_circle"
+        android:id="@+id/img_circle_placeholder"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:src="@color/gray_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_name_placeholder"
         android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="@dimen/normal_margin"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
         android:background="@color/gray_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/img_circle"
-        app:layout_constraintTop_toTopOf="@+id/img_circle"
+        app:layout_constraintStart_toEndOf="@+id/img_circle_placeholder"
+        app:layout_constraintTop_toTopOf="@+id/img_circle_placeholder"
         tools:text="Bayam Tanki Banyak" />
 
     <View
-        android:id="@+id/tv_device_name"
+        android:id="@+id/tv_device_name_placeholder"
         android:layout_width="0dp"
         android:layout_height="12dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginBottom="@dimen/small_margin"
         android:background="@color/gray_background"
-        app:layout_constraintBottom_toTopOf="@+id/tv_mac_address"
+        app:layout_constraintBottom_toTopOf="@+id/tv_mac_address_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/img_circle"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toEndOf="@+id/img_circle_placeholder"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_placeholder"
         tools:text="Raspberry Pi 4" />
 
     <TextView
-        android:id="@+id/tv_mac_address"
+        android:id="@+id/tv_mac_address_placeholder"
         android:layout_width="0dp"
         android:layout_height="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginBottom="@dimen/small_margin"
         android:background="@color/gray_background"
-        app:layout_constraintBottom_toBottomOf="@+id/img_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/img_circle_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/img_circle"
+        app:layout_constraintStart_toEndOf="@+id/img_circle_placeholder"
         tools:text="a4:a4:a4:a4" />
 
     <View
-        android:id="@+id/tv_location_title"
+        android:id="@+id/tv_location_title_placeholder"
         android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/normal_margin"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
         android:background="@color/gray_background"
-        app:layout_constraintEnd_toEndOf="@+id/img_circle"
+        app:layout_constraintEnd_toEndOf="@+id/img_circle_placeholder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_circle" />
+        app:layout_constraintTop_toBottomOf="@+id/img_circle_placeholder" />
 
     <View
-        android:id="@+id/tv_location"
+        android:id="@+id/tv_location_placeholder"
         android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="@dimen/normal_margin"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:background="@color/gray_background"
-        app:layout_constraintEnd_toStartOf="@+id/btn_edit_location"
-        app:layout_constraintStart_toEndOf="@+id/tv_location_title"
-        app:layout_constraintTop_toBottomOf="@+id/img_circle"
+        app:layout_constraintEnd_toStartOf="@+id/btn_edit_location_placeholder"
+        app:layout_constraintStart_toEndOf="@+id/tv_location_title_placeholder"
+        app:layout_constraintTop_toBottomOf="@+id/img_circle_placeholder"
         tools:text="Jalan Sukapura no 26, Bandung, Jawa Barat" />
 
     <View
-        android:id="@+id/btn_edit_location"
+        android:id="@+id/btn_edit_location_placeholder"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
         android:background="@color/gray_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_circle" />
+        app:layout_constraintTop_toBottomOf="@+id/img_circle_placeholder" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chip_group"
+        android:id="@+id/chip_group_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:layout_marginBottom="@dimen/normal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_location">
+        app:layout_constraintTop_toBottomOf="@+id/tv_location_placeholder">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/luminous_chip"
+            android:id="@+id/luminous_chip_placeholder"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -112,7 +112,7 @@
             app:chipBackgroundColor="@color/gray_background" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/humidity_chip"
+            android:id="@+id/humidity_chip_placeholder"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -120,7 +120,7 @@
             app:chipBackgroundColor="@color/gray_background" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/temp_chip"
+            android:id="@+id/temp_chip_placeholder"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:clickable="true"

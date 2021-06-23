@@ -15,13 +15,15 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_splash">
+        android:background="@drawable/bg_splash"
+        android:fitsSystemWindows="false">
 
         <include
             android:id="@+id/app_bar"
             layout="@layout/normal_appbarlayout" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
+            android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -34,9 +36,9 @@
                     android:id="@+id/img_logo_login"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/normal_margin"
                     android:layout_marginTop="64dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:contentDescription="@string/hystorms_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -47,9 +49,9 @@
                     android:id="@+id/tv_login_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:fontFamily="@font/raleway_semibold"
                     android:text="@string/login_page_title"
                     android:textSize="24sp"
@@ -63,15 +65,16 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/normal_margin"
                     android:layout_marginTop="64dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:hint="@string/text_email"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_login_title">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
@@ -84,15 +87,16 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
                     android:hint="@string/text_password"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tf_email">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
@@ -104,31 +108,34 @@
                     android:id="@+id/btn_login"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
                     android:backgroundTint="@color/green_variant"
                     android:text="@string/text_login"
                     android:textColor="@color/green_button"
                     app:bindLoadingButtonState="@{viewModel.viewState}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tf_password" />
+                    app:layout_constraintTop_toBottomOf="@+id/tf_password"
+                    app:spinning_bar_color="@color/green_button"
+                    app:spinning_bar_padding="6dp"
+                    app:spinning_bar_width="4dp" />
 
                 <Button
                     android:id="@+id/btn_forget_pass"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="@dimen/normal_margin"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginBottom="@dimen/normal_margin"
                     android:text="@string/text_forget_pass"
                     android:textColor="@color/blue_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tf_password" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

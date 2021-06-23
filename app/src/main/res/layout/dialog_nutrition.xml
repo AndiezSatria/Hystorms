@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="nutritionViewModel"
+            type="org.d3ifcool.hystorms.viewmodel.DialogNutritionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.main.encyclopedia.DialogNutrition">
+
+        <ImageView
+            android:contentDescription="@string/nutrition_image_desc"
+            android:id="@+id/img_nutrition"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:scaleType="centerCrop"
+            app:bindImageUrl="@{nutritionViewModel.nutrition.photoUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@{nutritionViewModel.nutrition.name}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_nutrition"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="AB Mix" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@{nutritionViewModel.nutrition.nutrientContent}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_ppm"
+            app:layout_constraintStart_toEndOf="@+id/img_nutrition"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            tools:text="Kalsium, Natrium dsb" />
+
+        <TextView
+            android:id="@+id/tv_ppm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text='@{nutritionViewModel.nutrition.ppm != null ? nutritionViewModel.nutrition.ppm + " ppm" : "Tidak ada data" }'
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            tools:text="600 ppm" />
+
+        <TextView
+            android:id="@+id/tv_title_effect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/text_effect"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_nutrition" />
+
+        <TextView
+            android:id="@+id/tv_effect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@{nutritionViewModel.nutrition.effect}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_nutrition"
+            app:layout_constraintTop_toBottomOf="@+id/img_nutrition"
+            tools:text="600 ppm" />
+
+        <TextView
+            android:id="@+id/tv_title_usage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/text_usage"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_effect" />
+
+        <TextView
+            android:id="@+id/tv_ussage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@{nutritionViewModel.nutrition.usage}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_title_usage"
+            app:layout_constraintTop_toBottomOf="@+id/tv_effect"
+            tools:text="600 ppm" />
+
+        <TextView
+            android:id="@+id/tv_title_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@string/text_description"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ussage" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
+            android:text="@{nutritionViewModel.nutrition.description}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_title_desc"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ussage"
+            tools:text="600 ppm" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

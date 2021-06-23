@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.d3ifcool.hystorms.network.WeatherRetrofit
+import org.d3ifcool.hystorms.util.WeatherRetrofitBuilder
+import org.d3ifcool.hystorms.util.WeatherService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -21,16 +23,20 @@ object RetrofitModule {
         return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     }
 
+    @WeatherRetrofitBuilder
     @Singleton
     @Provides
-    fun provideRetrofit(moshi: Moshi): Retrofit.Builder {
+    fun provideWeatherRetrofit(moshi: Moshi): Retrofit.Builder {
         return Retrofit.Builder().baseUrl("http://api.openweathermap.org/data/2.5/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
     }
 
+    @WeatherService
     @Singleton
     @Provides
-    fun provideWeatherService(retrofit: Retrofit.Builder): WeatherRetrofit {
+    fun provideWeatherService(
+        @WeatherRetrofitBuilder retrofit: Retrofit.Builder
+    ): WeatherRetrofit {
         return retrofit.build().create(WeatherRetrofit::class.java)
     }
 }

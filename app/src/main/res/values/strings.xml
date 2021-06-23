@@ -27,13 +27,124 @@
     <string name="text_humidity">Kelembaban : %1$d</string>
     <string name="text_wind_speed">Kecepatan Angin : %1$dm/s</string>
     <string name="text_feels_like">Berasa : %1$d\u00B0C</string>
+    <string name="delete">Hapus</string>
+    <string name="edit">Ubah</string>
+
+    <!-- Device Page Strings    -->
+    <string name="text_device_name">Nama Alat</string>
+    <string name="add_device_text">Tambah Alat</string>
+    <string name="text_mac_address">MAC Address</string>
+    <string name="text_change">Ubah</string>
+    <string name="text_location">Lokasi :</string>
+    <string name="text_change_location_button">Change location button</string>
+    <string name="text_retry">Ulang</string>
+    <string name="text_load_fail">Gagal Memuat</string>
+    <string name="device_desc">Device Logo</string>
+    <string name="text_error">Terjadi kesalahan</string>
+    <string name="text_no_data">Tidak ada data</string>
+    <string name="text_button_add_device">Button Add Device</string>
+    <string name="text_add">Tambah</string>
+    <string name="text_cancel">Batal</string>
+    <string name="text_error_condition">Sensor tidak mengembalikan nilai.</string>
+    <string name="text_good_condition">Sensor dalam keadaan baik</string>
+    <string name="text_close">Tutup</string>
+    <string name="text_condition">Kondisi Sensor</string>
 
     <!-- Tank Page Strings   -->
+    <string name="text_plant_image">Plant Image</string>
+    <string name="text_tank">Tangki</string>
+    <string name="text_change_date">Change date button</string>
+    <string name="text_schedule">Jadwal Pemberian Nutrisi</string>
+    <string name="text_daily_reminder">Pengingat Harian</string>
+    <string name="text_reminder_desc">Aplikasi akan mengingatkan untuk masuk ke aplikasi setiap harinya.</string>
+    <string name="text_history">Riwayat</string>
+    <string name="text_sensor_data">Hasil Sensor</string>
+    <string name="text_add_schedule">Jadwal</string>
+    <string name="text_choose_days">Pilih Hari</string>
     <string name="text_amount">Jumlah : %1$d tanaman</string>
     <string name="text_age">Umur : %1$d hari</string>
+    <string name="text_tank_image_desc">Tank Image</string>
+    <string name="text_tank_name">Nama Tanki</string>
+    <string name="text_plants_amount">Jumlah Tanaman</string>
     <string name="text_sensor_name">%1$s :</string>
-    <string name="text_data_temp">%1$d\u00B0C</string>
+    <string name="text_data_temp">%1$s\u00B0C</string>
+    <string name="text_data_lux">%1$s lux</string>
+    <string name="text_data_humidity">%1$s %2$s</string>
+    <string name="text_data_pH">%1$s pH</string>
+    <string name="add_schedule_title">Tambah Jadwal</string>
+    <string name="edit_schedule_title">Ubah Jadwal</string>
+    <string name="sort_ascending">Sort Ascending</string>
+    <string name="sort_descending">Sort Descending</string>
+    <string name="clear_sorting">Clear</string>
+    <string name="planted_at">Tanggal Tanam : %1$s</string>
+    <string name="row_show">Show 5. Row</string>
+    <string name="row_hide">Hide 5. Row</string>
+
+    <!--    Setting Page Strings-->
+    <string name="change_password_text">Ganti Password dengan password baru</string>
+    <string name="device_help">
+        1. Untuk menambahkan alat yang ada, pastikan alamat email akun dan alamat email yang dimasukkan di alat sama.\n
+        2. Tambah alat dengan tombol "Tambah Alat" di halaman daftar alat. Masukkan nama alat yang dimasukkan di alat dan MAC Address dari alat tersebut.\n
+        3. Di dalam halaman detail alat, terdapat informasi alat, seperti nama alat, MAC Address, daftar tanki, daftar kondisi sensor, dan cuaca di sekitar alat.\n
+        4. Halaman detail tanki memiliki informasi seperti nama tanki, tanaman yang ditanam, umur tanaman, jumlah tanaman. Anda dapat menambahkan jadwal pemberian nutrisi dan mengaturnya.\n
+        5. Hasil pengamatan dari sensor akan ada di halaman detail tanki dengan beberapa informasi mengenai kondisi tanaman, seperti: \n
+        \ta. Merah berarti sensor tidak dapat mengambil data\n
+        \tb. Kuning berarti kondisi variabel yang dimaksud melebihi atau kurang dari kondisi optimum dari tanaman\n
+        \tc. Hijau berarti kondisi tanaman dalam keadaan baik
+    </string>
+    <string name="encyclopedia_help">
+        1. Halaman Ensiklopedia berisi informasi - informasi mengenai tanaman dan nutrisi yang diperlukan dalam hidroponik \n
+        2. Kami menyediakan 15 jenis tanaman yang biasa ditanaman menggunakan hidroponik. Anda dapat memilih salah satu untuk menjadi tanaman yang diamati agar kerja sensor lebih maksimal\n
+        3. Anda dapat menambahkan nutrisi untuk memastikan tanaman tidak kekurangan nutrisi
+    </string>
+
+    <!-- Encyclopedia Page Strings-->
+    <string name="text_optimum_data">%1$s : %2$s - %3$s</string>
+    <string name="add_nutrition_title">Tambah Nutrisi</string>
+    <string name="edit_nutrition_title">Ubah Nutrisi</string>
+    <string name="text_effect">Efek</string>
+    <string name="text_usage">Penggunaan</string>
+    <string name="text_description">Deskripsi</string>
+    <string name="nutrition_image_desc">Nutrition Image</string>
+    <string name="sensor_condition_desc">Sensor Condition</string>
+    <string name="text_nutrition_name">Nama Nutrisi</string>
+    <string name="text_ppm">PPM</string>
+    <string name="text_nutrient_content">Kandungan Nutrisi</string>
+    <string name="text_how_usage">Cara Penggunaan</string>
+    <string name="text_nutrient_effect">Efek Penggunaan</string>
+    <string name="text_nutrient_description">Deskripsi Nutrisi</string>
+    <string name="text_button_done">Button Done</string>
+
+    <!--    Settings Page Strings-->
+    <string name="text_edit_profile">Edit Profil</string>
+    <string name="text_change_password">Ganti Password</string>
+    <string name="text_notification">Notifikasi</string>
+    <string name="text_help">Bantuan</string>
+    <string name="text_app_info">Tentang Aplikasi</string>
+    <string name="text_exit_app">Keluar Aplikasi</string>
+    <string name="text_logout">Keluar</string>
+    <string name="text_hystorms_logo">Hystorms Logo</string>
+    <string name="device_and_tank">Alat dan Tanki</string>
+    <string name="plants_and_nutrition">Tanaman dan nutrisi</string>
+    <string name="made_in">Dibuat pada tahun 2021</string>
+    <string name="icon_edit_profile">Icon Edit Profile</string>
+    <string name="icon_change_password">Icon change password</string>
+    <string name="icon_notification">Icon notification</string>
+    <string name="icon_help">Icon help</string>
+    <string name="icon_about_us">Icon about us</string>
+    <string name="icon_exit_application">Icon exit application</string>
+    <string name="icon_logout">Icon logout</string>
+
+    <string name="news_channel_id" translatable="false">news</string>
+    <string name="news_channel_name">Pengumuman</string>
+    <string name="news_channel_desc">Pengumuman penting terkait Tanamanmu.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_home">Beranda</string>
+    <string name="text_devices">Daftar Alat</string>
+    <string name="text_encyclopedia">Ensiklopedia</string>
+    <string name="text_settings">Pengaturan</string>
+    <string name="text_share">Share</string>
+    <string name="text_favorite">Favorite</string>
 </resources>

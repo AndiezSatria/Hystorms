@@ -1,15 +1,19 @@
 package org.d3ifcool.hystorms.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.model.User
-import org.d3ifcool.hystorms.repository.auth.AuthenticationRepositoryImpl
+import org.d3ifcool.hystorms.repository.auth.AuthenticationRepository
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.util.ViewState
@@ -18,8 +22,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModelNew @Inject constructor(
-    private val authRepo: AuthenticationRepositoryImpl
+    private val authRepo: AuthenticationRepository
 ) : ViewModel() {
+    init {
+        checkToken()
+    }
+
+    private fun checkToken() {
+        val tokenTask =
+            FirebaseMessaging.getInstance().token
+        tokenTask.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("FCM", "FCM token failed.", task.exception)
+                return@OnCompleteListener
+            }
+            Action.showLog(task.result)
+            _token.value = task.result
+        })
+    }
+
+    private val _token: MutableLiveData<String> = MutableLiveData()
+    val token: LiveData<String>
+        get() = _token
+
     private val _viewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
     val viewState: LiveData<ViewState>
         get() = _viewState

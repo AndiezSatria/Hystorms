@@ -61,7 +61,7 @@ class ForgetPasswordFragment : Fragment(R.layout.fragment_forget_password) {
                 is DataState.Error -> {
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                     forgotPasswordViewModel.setState(ViewState.ERROR)
@@ -77,20 +77,33 @@ class ForgetPasswordFragment : Fragment(R.layout.fragment_forget_password) {
                     )
                     findNavController().navigateUp()
                 }
+                is DataState.ErrorThrowable -> {
+                    forgotPasswordViewModel.setState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.throwable.localizedMessage,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
             }
         }
     }
 
     private fun checkInput(): Boolean {
         return if (binding.tfEmail.editText?.text.toString().trim() == "") {
-            Action.showDialog(
-                "Peringatan",
+//            Action.showDialog(
+//                "Peringatan",
+//                "Mohon isi semua bagan!",
+//                requireContext(),
+//                confirmText = "Ok",
+//                confirmListener = {
+//                    it.dismissWithAnimation()
+//                })
+            Action.showSnackBar(
+                binding.coordinator,
                 "Mohon isi semua bagan!",
-                requireContext(),
-                confirmText = "Ok",
-                confirmListener = {
-                    it.dismissWithAnimation()
-                })
+                Snackbar.LENGTH_SHORT
+            )
             false
         } else true
     }

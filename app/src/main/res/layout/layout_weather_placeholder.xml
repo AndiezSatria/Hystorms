@@ -7,114 +7,114 @@
         android:layout_height="150dp">
 
         <View
-            android:id="@+id/img_condition"
+            android:id="@+id/img_condition_placeholder"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/normal_margin"
             android:background="@color/gray_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/tv_temp"
+            android:id="@+id/tv_temp_placeholder"
             android:layout_width="50dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:background="@color/gray_background"
-            app:layout_constraintStart_toEndOf="@+id/img_condition"
-            app:layout_constraintTop_toTopOf="@+id/img_condition" />
+            app:layout_constraintStart_toEndOf="@+id/img_condition_placeholder"
+            app:layout_constraintTop_toTopOf="@+id/img_condition_placeholder" />
 
         <View
-            android:id="@+id/tv_desc"
+            android:id="@+id/tv_desc_placeholder"
             android:layout_width="100dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/small_margin"
             android:background="@color/gray_background"
-            app:layout_constraintBottom_toBottomOf="@+id/img_condition"
-            app:layout_constraintStart_toEndOf="@+id/img_condition" />
+            app:layout_constraintBottom_toBottomOf="@+id/img_condition_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/img_condition_placeholder" />
 
         <View
-            android:id="@+id/ic_humidity"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/ic_humidity_placeholder"
+            android:layout_width="@dimen/normal_margin"
+            android:layout_height="@dimen/normal_margin"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:background="@color/gray_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_condition" />
+            app:layout_constraintTop_toBottomOf="@+id/img_condition_placeholder" />
 
         <View
-            android:id="@+id/tv_humidity"
+            android:id="@+id/tv_humidity_placeholder"
             android:layout_width="150dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="12dp"
             android:background="@color/gray_background"
-            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
-            app:layout_constraintTop_toBottomOf="@+id/img_condition" />
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/img_condition_placeholder" />
 
         <View
-            android:id="@+id/ic_wind_speed"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/ic_wind_speed_placeholder"
+            android:layout_width="@dimen/normal_margin"
+            android:layout_height="@dimen/normal_margin"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:background="@color/gray_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ic_humidity"
+            app:layout_constraintTop_toBottomOf="@+id/ic_humidity_placeholder"
             app:srcCompat="@drawable/ic_wind" />
 
         <View
-            android:id="@+id/tv_wind_speed"
+            android:id="@+id/tv_wind_speed_placeholder"
             android:layout_width="150dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="12dp"
             android:background="@color/gray_background"
-            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
-            app:layout_constraintTop_toBottomOf="@+id/ic_humidity" />
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/ic_humidity_placeholder" />
 
         <View
-            android:id="@+id/ic_temp_feels_like"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/ic_temp_feels_like_placeholder"
+            android:layout_width="@dimen/normal_margin"
+            android:layout_height="@dimen/normal_margin"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/small_margin"
             android:background="@color/gray_background"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ic_wind_speed"
+            app:layout_constraintTop_toBottomOf="@+id/ic_wind_speed_placeholder"
             app:srcCompat="@drawable/ic_thermometer" />
 
         <View
-            android:id="@+id/tv_temp_feels_like"
+            android:id="@+id/tv_temp_feels_like_placeholder"
             android:layout_width="150dp"
-            android:layout_height="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="12dp"
             android:background="@color/gray_background"
-            app:layout_constraintStart_toEndOf="@+id/ic_humidity"
-            app:layout_constraintTop_toBottomOf="@+id/ic_wind_speed" />
+            app:layout_constraintStart_toEndOf="@+id/ic_humidity_placeholder"
+            app:layout_constraintTop_toBottomOf="@+id/ic_wind_speed_placeholder" />
 
         <View
-            android:id="@+id/ic_location"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:id="@+id/ic_location_placeholder"
+            android:layout_width="@dimen/normal_margin"
+            android:layout_height="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
             android:background="@color/gray_background"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_location"
-            app:layout_constraintTop_toTopOf="@+id/tv_location" />
+            app:layout_constraintEnd_toStartOf="@+id/tv_location_placeholder"
+            app:layout_constraintTop_toTopOf="@+id/tv_location_placeholder" />
 
         <View
-            android:id="@+id/tv_location"
+            android:id="@+id/tv_location_placeholder"
             android:layout_width="150dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
             android:background="@color/gray_background"
             android:maxWidth="150dp"
             app:layout_constraintBottom_toBottomOf="parent"

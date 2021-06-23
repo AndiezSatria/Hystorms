@@ -6,4 +6,10 @@ data class SensorPhysic(
     var id: Int = 1,
     @field:JvmField var isError: Boolean = false,
     var name: String = "",
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        return "Kondisi $name: " +
+                if (isError) "Error, Tidak Mengembalikan Nilai."
+                else "Baik, Sensor berfungsi dengan baik."
+    }
+}

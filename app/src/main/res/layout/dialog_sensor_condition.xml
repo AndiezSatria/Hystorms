@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.device.SensorConditionDialog">
+
+    <data>
+
+        <variable
+            name="formatter"
+            type="java.text.SimpleDateFormat" />
+
+        <variable
+            name="date"
+            type="java.util.Date" />
+
+        <variable
+            name="sensor"
+            type="org.d3ifcool.hystorms.model.SensorPhysic" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="?dialogPreferredPadding"
+        android:paddingEnd="?dialogPreferredPadding">
+
+        <ImageView
+            android:contentDescription="@string/sensor_condition_desc"
+            android:id="@+id/imageView3"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/normal_margin"
+            app:bindCondition="@{sensor.isError}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:text="@{sensor.name}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView3"
+            tools:text="Luminous Sensor" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:text="@{sensor.isError ? @string/text_error_condition: @string/text_good_condition}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:text="@string/text_good_condition" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@{formatter.format(date)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            tools:text="@string/text_good_condition" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

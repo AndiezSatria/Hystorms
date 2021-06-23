@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import javax.inject.Inject
 
-class AuthFragmentFactory @Inject constructor(): FragmentFactory() {
+class AuthFragmentFactory: FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when(className) {
             SplashFragment::class.java.name -> SplashFragment()

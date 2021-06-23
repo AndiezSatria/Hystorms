@@ -13,8 +13,15 @@ data class Tank(
     var owner: String = "",
     var device: String = "",
     var plant: String = "",
+    var history: String = "",
     @field:JvmField var isAuthorized: Boolean = false,
     var createdAt: Date = Calendar.getInstance().time,
     var plantedAt: Date = Calendar.getInstance().time,
     @ServerTimestamp var timeStamp: Date = Calendar.getInstance().time
-) : Serializable
+) : Serializable {
+    override fun toString(): String {
+        var string = "Tanki $name, jumlah $amount tanaman."
+        sensorData.forEach { string += "\n${it}" }
+        return string
+    }
+}

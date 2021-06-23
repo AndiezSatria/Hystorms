@@ -22,6 +22,7 @@ import org.d3ifcool.hystorms.model.Schedule
 import org.d3ifcool.hystorms.model.Tank
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.ui.main.MainFragmentDirections
+import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ItemClickHandler
 import org.d3ifcool.hystorms.util.ViewState
 import org.d3ifcool.hystorms.viewmodel.HomeViewModel
@@ -39,6 +40,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var homeTankAdapter: HomeTankAdapter
     private lateinit var scheduleAdapter: ScheduleAdapter
+    private var selectedDay: Int = 0
 
     private val spinnerHandler = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -46,6 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewModel.uid.observe(viewLifecycleOwner) {
                 if (it != null) userId = it
             }
+            selectedDay = position
             viewModel.getSchedule(userId, position)
         }
 
@@ -56,16 +59,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val tankHandler = object : ItemClickHandler<Tank> {
         override fun onClick(item: Tank) {
             Navigation.findNavController(requireActivity(), R.id.nav_main).navigate(
-                MainFragmentDirections.actionMainFragmentToTankDetailFragment(item)
+                MainFragmentDirections.actionMainFragmentToTankDetailFragment(getUid(), item.id)
             )
         }
 
         override fun onItemDelete(item: Tank) {}
 
     }
-    private val scheduleHandler = object : ItemClickHandler<Schedule> {
-        override fun onClick(item: Schedule) {}
-        override fun onItemDelete(item: Schedule) {}
+    private val scheduleHandler = object : ScheduleAdapter.ScheduleClickHandler {
+        override fun onClick(item: Schedule, position: Int) {
+            Navigation.findNavController(requireActivity(), R.id.nav_main)
+                .navigate(
+                    MainFragmentDirections.actionMainFragmentToDialogSchedule(
+                        item,
+                        selectedDay
+                    )
+                )
+        }
+
+        override fun onLongClick(position: Int): Boolean = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,7 +110,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
             }
-            spinner.setSelection(calendar.get(Calendar.DAY_OF_WEEK))
+            spinner.setSelection(calendar.get(Calendar.DAY_OF_WEEK) - 1)
             spinner.onItemSelectedListener = spinnerHandler
 
             viewModel.weatherViewState.observe(viewLifecycleOwner) {
@@ -118,6 +130,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         observeTankData()
     }
 
+    private fun getUid(): String {
+        var uid = ""
+        viewModel.uid.observe(viewLifecycleOwner) {
+            if (it != null) uid = it
+        }
+        return uid
+    }
+
     private fun observeUser() {
         viewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
@@ -133,7 +153,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             if (it != null) {
                 viewModel.getTanks(it)
                 viewModel.getUserState(it)
-                viewModel.getSchedule(it, calendar.get(Calendar.DAY_OF_WEEK))
+                viewModel.getSchedule(it, calendar.get(Calendar.DAY_OF_WEEK) - 1)
+                selectedDay = calendar.get(Calendar.DAY_OF_WEEK) - 1
             }
         }
     }
@@ -154,6 +175,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.weather.observe(viewLifecycleOwner) { dataState ->
             when (dataState) {
                 is DataState.Canceled -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setWeatherViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -162,6 +186,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 }
                 is DataState.Error -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setWeatherViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -169,10 +196,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         Snackbar.LENGTH_LONG
                     )
                 }
-                is DataState.Loading -> viewModel.setWeatherViewState(ViewState.LOADING)
+                is DataState.Loading -> {
+                    EspressoIdlingResource.increment()
+                    viewModel.setWeatherViewState(ViewState.LOADING)
+                }
                 is DataState.Success -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setWeatherViewState(ViewState.SUCCESS)
                     binding.weatherLayout.weather = dataState.data
+                }
+                is DataState.ErrorThrowable -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
+                    viewModel.setWeatherViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.container,
+                        dataState.throwable.message,
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             }
         }
@@ -182,6 +226,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.tanksDataState.observe(viewLifecycleOwner) { dataState ->
             when (dataState) {
                 is DataState.Canceled -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setTankViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -190,6 +237,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 }
                 is DataState.Error -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setTankViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -197,11 +247,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         Snackbar.LENGTH_LONG
                     )
                 }
-                is DataState.Loading -> viewModel.setTankViewState(ViewState.LOADING)
+                is DataState.Loading -> {
+                    EspressoIdlingResource.increment()
+                    viewModel.setTankViewState(ViewState.LOADING)
+                }
                 is DataState.Success -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     homeTankAdapter.submitList(dataState.data)
+                    viewModel.setIsTankEmpty(dataState.data.isEmpty())
                     homeTankAdapter.notifyDataSetChanged()
                     viewModel.setTankViewState(ViewState.SUCCESS)
+                }
+                is DataState.ErrorThrowable -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
+                    dataState.throwable.message?.let { Action.showLog(it) }
+                    viewModel.setTankViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.container,
+                        dataState.throwable.message,
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             }
         }
@@ -211,6 +280,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.schedulesDataState.observe(viewLifecycleOwner) { dataState ->
             when (dataState) {
                 is DataState.Canceled -> {
+                    dataState.exception.message?.let { Action.showLog(it) }
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setScheduleViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -219,6 +292,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
                 }
                 is DataState.Error -> {
+                    dataState.exception.message?.let { Action.showLog(it) }
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     viewModel.setScheduleViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.container,
@@ -226,11 +303,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         Snackbar.LENGTH_LONG
                     )
                 }
-                is DataState.Loading -> viewModel.setScheduleViewState(ViewState.LOADING)
+                is DataState.Loading -> {
+                    EspressoIdlingResource.increment()
+                    viewModel.setScheduleViewState(ViewState.LOADING)
+                }
                 is DataState.Success -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
                     scheduleAdapter.submitList(dataState.data)
+                    viewModel.setIsTankEmpty(dataState.data.isEmpty())
                     scheduleAdapter.notifyDataSetChanged()
                     viewModel.setScheduleViewState(ViewState.SUCCESS)
+                }
+                is DataState.ErrorThrowable -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow) {
+                        EspressoIdlingResource.decrement() // Set app as idle.
+                    }
+                    dataState.throwable.message?.let { Action.showLog(it) }
+                    viewModel.setTankViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.container,
+                        dataState.throwable.message,
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             }
         }

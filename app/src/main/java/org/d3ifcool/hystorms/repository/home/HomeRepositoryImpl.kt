@@ -4,9 +4,11 @@ import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.d3ifcool.hystorms.BuildConfig
+import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.db.weather.WeatherCacheMapper
 import org.d3ifcool.hystorms.db.weather.WeatherDao
 import org.d3ifcool.hystorms.extension.FirebaseExtension.await
@@ -47,6 +49,8 @@ class HomeRepositoryImpl constructor(
             } catch (e: Exception) {
                 emit(DataState.Error(e))
             }
+        }.catch {
+            emit(DataState.errorThrowable(it))
         }.flowOn(Dispatchers.IO)
 
     override suspend fun getDevice(deviceId: String): Flow<DataState<Device>> = flow {
@@ -66,7 +70,9 @@ class HomeRepositoryImpl constructor(
                 emit(DataState.canceled(state.exception))
             }
         }
-    }
+    }.catch {
+        emit(DataState.errorThrowable(it))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getTanks(userId: String): Flow<DataState<List<Tank>>> = flow {
         emit(DataState.loading())
@@ -77,29 +83,34 @@ class HomeRepositoryImpl constructor(
             val tanks = response.packet?.documents?.map { doc ->
                 val tank = doc.toObject(Tank::class.java)!!
                 tank.id = doc.id
+                Action.showLog(tank.id)
                 tank
             }
             emit(DataState.success(tanks ?: listOf()))
         } else {
             emit(DataState.error(response.error))
         }
-    }
+    }.catch {
+        emit(DataState.errorThrowable(it))
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getSchedules(userId: String, day: Int): Flow<DataState<List<Schedule>>> =
         flow {
             emit(DataState.loading())
             val todayDocRef =
-                scheduleReference.whereEqualTo("owner", userId).whereEqualTo("day", day)
+                scheduleReference.whereEqualTo("owner", userId).whereArrayContains("day", day).orderBy("title")
             val responseToday = todayDocRef.awaitRealtime()
             if (responseToday.error == null) {
                 val schedules = responseToday.packet?.documents?.map { doc ->
                     val schedule = doc.toObject(Schedule::class.java)!!
-                    schedule.id = doc.id
+                    schedule.id = doc.id.toLong()
                     schedule
                 }
                 emit(DataState.success(schedules ?: listOf()))
             } else {
                 emit(DataState.error(responseToday.error))
             }
-        }
+        }.catch {
+            emit(DataState.errorThrowable(it))
+        }.flowOn(Dispatchers.IO)
 }

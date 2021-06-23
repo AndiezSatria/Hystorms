@@ -1,9 +1,7 @@
 package org.d3ifcool.hystorms.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
-@Parcelize
 data class Weather(
     val id: Int,
     val idIcon: Int,
@@ -17,4 +15,4 @@ data class Weather(
     val humidity: Long,
     val windSpeed: Long,
     val windDegree: Long
-) : Parcelable
+) : Serializable

@@ -3,7 +3,6 @@ package org.d3ifcool.hystorms.ui.auth
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,6 +21,7 @@ import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.ui.main.MainActivity
 import org.d3ifcool.hystorms.util.ButtonUploadState
+import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState
 import org.d3ifcool.hystorms.viewmodel.RegisterViewModelNew
 import java.io.File
@@ -61,7 +61,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             }
             btnRegister.setOnClickListener {
                 val user: User? = getUser()
-                Log.d(Constant.APP_DEBUG, "Kepencet")
                 if (user != null) {
                     val pass: String = getPass()
                     if (pass != "") {
@@ -79,22 +78,25 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         registerViewModel.authenticatedUser.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DataState.Canceled -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
                 is DataState.Error -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
                 is DataState.Loading -> {
+                    EspressoIdlingResource.increment()
                     registerViewModel.setViewState(ViewState.LOADING)
                 }
                 is DataState.Success<User> -> {
@@ -110,6 +112,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     }
                     Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
                 }
+                is DataState.ErrorThrowable -> {
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    EspressoIdlingResource.decrement()
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.throwable.localizedMessage,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
             }
         }
     }
@@ -118,18 +129,20 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         registerViewModel.profileUploadedUser.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DataState.Canceled -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
                 is DataState.Error -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
@@ -141,6 +154,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     registerViewModel.saveUser(user)
                     Action.showSnackBar(binding.coordinator, content, Snackbar.LENGTH_INDEFINITE)
                 }
+                is DataState.ErrorThrowable -> {
+                    EspressoIdlingResource.decrement()
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.throwable.localizedMessage,
+                        Snackbar.LENGTH_LONG
+                    )
+                }
             }
         }
     }
@@ -149,36 +171,49 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         registerViewModel.savedUser.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DataState.Canceled -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
                 is DataState.Error -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.ERROR)
                     Action.showSnackBar(
                         binding.coordinator,
-                        state.exception.message,
+                        state.exception.localizedMessage,
                         Snackbar.LENGTH_LONG
                     )
                 }
                 is DataState.Loading -> {
                 }
                 is DataState.Success<User> -> {
+                    EspressoIdlingResource.decrement()
                     registerViewModel.setViewState(ViewState.SUCCESS)
                     val user = state.data
-                    val content = "Akun berhasil disimpan. Selamat Datang"
-                    Action.showSnackBar(
-                        binding.coordinator,
-                        content,
-                        Snackbar.LENGTH_INDEFINITE
-                    )
+                    val content = "Selamat Datang"
+//                    Action.showSnackBar(
+//                        binding.coordinator,
+//                        content,
+//                        Snackbar.LENGTH_INDEFINITE
+//                    )
+                    Action.showToast(requireContext(), content)
                     val intent = Intent(requireActivity(), MainActivity::class.java)
                     intent.putExtra(Constant.USER, user.uid)
                     startActivity(intent)
                     requireActivity().finish()
+                }
+                is DataState.ErrorThrowable -> {
+                    EspressoIdlingResource.decrement()
+                    registerViewModel.setViewState(ViewState.ERROR)
+                    Action.showSnackBar(
+                        binding.coordinator,
+                        state.throwable.localizedMessage,
+                        Snackbar.LENGTH_LONG
+                    )
                 }
             }
         }
@@ -209,20 +244,19 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         return when {
             binding.tfPassword.editText?.text.toString()
                 .trim() != binding.tfConfirmPass.editText?.text.toString().trim() -> {
-                Action.showDialog(
-                    "Perhatian",
+                Action.showSnackBar(
+                    binding.coordinator,
                     "Password dan password ulang tidak sama!",
-                    requireContext(),
-                    confirmListener = { it.dismissWithAnimation() }
+                    Snackbar.LENGTH_SHORT
                 )
+
                 false
             }
             binding.tfPassword.editText?.text.toString().length < 6 -> {
-                Action.showDialog(
-                    "Perhatian",
+                Action.showSnackBar(
+                    binding.coordinator,
                     "Password kurang dari 6 karakter!",
-                    requireContext(),
-                    confirmListener = { it.dismissWithAnimation() }
+                    Snackbar.LENGTH_SHORT
                 )
                 false
             }
@@ -232,11 +266,19 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
     private fun getUser(): User? {
         return if (!checkEditTextEmptiness()) null
-        else User(
-            "",
-            binding.tfName.editText?.text.toString(),
-            binding.tfEmail.editText?.text.toString(),
-        )
+        else {
+            val user = User(
+                "",
+                binding.tfName.editText?.text.toString(),
+                binding.tfEmail.editText?.text.toString(),
+            )
+            registerViewModel.token.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    user.token = it
+                }
+            }
+            user
+        }
     }
 
     private fun checkEditTextEmptiness(): Boolean {
@@ -246,13 +288,18 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             binding.tfPassword.editText?.text.toString().trim() == "" &&
             binding.tfConfirmPass.editText?.text.toString().trim() == ""
         ) {
-            Action.showDialog(
-                "Perhatian",
+//            Action.showDialog(
+//                "Perhatian",
+//                "Mohon isi semua bagan!",
+//                requireContext(),
+//                confirmListener = {
+//                    it.dismissWithAnimation()
+//                })
+            Action.showSnackBar(
+                binding.coordinator,
                 "Mohon isi semua bagan!",
-                requireContext(),
-                confirmListener = {
-                    it.dismissWithAnimation()
-                })
+                Snackbar.LENGTH_SHORT
+            )
         } else {
             condition = true
         }
