@@ -64,7 +64,7 @@
     <string name="text_amount">Jumlah : %1$d tanaman</string>
     <string name="text_age">Umur : %1$d hari</string>
     <string name="text_tank_image_desc">Tank Image</string>
-    <string name="text_tank_name">Nama Tanki</string>
+    <string name="text_tank_name">Nama Tangki</string>
     <string name="text_plants_amount">Jumlah Tanaman</string>
     <string name="text_sensor_name">%1$s :</string>
     <string name="text_data_temp">%1$s\u00B0C</string>
@@ -85,9 +85,9 @@
     <string name="device_help">
         1. Untuk menambahkan alat yang ada, pastikan alamat email akun dan alamat email yang dimasukkan di alat sama.\n
         2. Tambah alat dengan tombol "Tambah Alat" di halaman daftar alat. Masukkan nama alat yang dimasukkan di alat dan MAC Address dari alat tersebut.\n
-        3. Di dalam halaman detail alat, terdapat informasi alat, seperti nama alat, MAC Address, daftar tanki, daftar kondisi sensor, dan cuaca di sekitar alat.\n
-        4. Halaman detail tanki memiliki informasi seperti nama tanki, tanaman yang ditanam, umur tanaman, jumlah tanaman. Anda dapat menambahkan jadwal pemberian nutrisi dan mengaturnya.\n
-        5. Hasil pengamatan dari sensor akan ada di halaman detail tanki dengan beberapa informasi mengenai kondisi tanaman, seperti: \n
+        3. Di dalam halaman detail alat, terdapat informasi alat, seperti nama alat, MAC Address, daftar tangki, daftar kondisi sensor, dan cuaca di sekitar alat.\n
+        4. Halaman detail tangki memiliki informasi seperti nama tangki, tanaman yang ditanam, umur tanaman, jumlah tanaman. Anda dapat menambahkan jadwal pemberian nutrisi dan mengaturnya.\n
+        5. Hasil pengamatan dari sensor akan ada di halaman detail tangki dengan beberapa informasi mengenai kondisi tanaman, seperti: \n
         \ta. Merah berarti sensor tidak dapat mengambil data\n
         \tb. Kuning berarti kondisi variabel yang dimaksud melebihi atau kurang dari kondisi optimum dari tanaman\n
         \tc. Hijau berarti kondisi tanaman dalam keadaan baik
@@ -124,7 +124,7 @@
     <string name="text_exit_app">Keluar Aplikasi</string>
     <string name="text_logout">Keluar</string>
     <string name="text_hystorms_logo">Hystorms Logo</string>
-    <string name="device_and_tank">Alat dan Tanki</string>
+    <string name="device_and_tank">Alat dan Tangki</string>
     <string name="plants_and_nutrition">Tanaman dan nutrisi</string>
     <string name="made_in">Dibuat pada tahun 2021</string>
     <string name="icon_edit_profile">Icon Edit Profile</string>

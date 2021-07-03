@@ -1,4 +1,4 @@
-package org.d3ifcool.hystorms
+package org.d3ifcool.hystorms.ui.main.tank
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -16,16 +16,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.databinding.FragmentEditTankBinding
-import org.d3ifcool.hystorms.model.Nutrition
 import org.d3ifcool.hystorms.model.Tank
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.viewmodel.EditTankViewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.tan
 
 /**
  * A simple [Fragment] subclass.

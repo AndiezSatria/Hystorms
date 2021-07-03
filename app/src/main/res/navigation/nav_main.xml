@@ -61,7 +61,7 @@
     <fragment
         android:id="@+id/tankDetailFragment"
         android:name="org.d3ifcool.hystorms.ui.main.tank.TankDetailFragment"
-        android:label="Detail Tanki"
+        android:label="Detail Tangki"
         tools:layout="@layout/fragment_tank_detail">
         <action
             android:id="@+id/action_tankDetailFragment_to_addScheduleFragment"
@@ -187,8 +187,8 @@
     </fragment>
     <fragment
         android:id="@+id/editTankFragment"
-        android:name="org.d3ifcool.hystorms.EditTankFragment"
-        android:label="Edit Tanki"
+        android:name="org.d3ifcool.hystorms.ui.main.tank.EditTankFragment"
+        android:label="Edit Tangki"
         tools:layout="@layout/fragment_edit_tank" >
         <argument
             android:name="tank"
