@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.android.material.snackbar.Snackbar
 import org.d3ifcool.hystorms.model.Nutrition
-import org.d3ifcool.hystorms.util.EspressoIdlingResource
 
 class Action {
     companion object {

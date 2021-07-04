@@ -44,12 +44,5 @@ annotation class WeatherRetrofitBuilder
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AddressRetrofitBuilder
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
 annotation class WeatherService
 
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class AddressService

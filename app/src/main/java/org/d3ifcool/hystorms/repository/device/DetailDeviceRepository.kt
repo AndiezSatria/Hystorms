@@ -1,12 +1,6 @@
 package org.d3ifcool.hystorms.repository.device
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import org.d3ifcool.hystorms.BuildConfig
 import org.d3ifcool.hystorms.model.*
 import org.d3ifcool.hystorms.state.DataState
 

@@ -1,6 +1,5 @@
 package org.d3ifcool.hystorms.repository.splash
 
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.Dispatchers
@@ -9,7 +8,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.d3ifcool.hystorms.extension.FirebaseExtension.await
-import org.d3ifcool.hystorms.model.DataOrException
 import org.d3ifcool.hystorms.model.User
 import org.d3ifcool.hystorms.state.DataState
 

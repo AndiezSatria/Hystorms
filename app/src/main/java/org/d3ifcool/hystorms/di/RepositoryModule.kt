@@ -11,7 +11,6 @@ import org.d3ifcool.hystorms.db.weather.WeatherCacheMapper
 import org.d3ifcool.hystorms.db.weather.WeatherDao
 import org.d3ifcool.hystorms.network.WeatherNetworkMapper
 import org.d3ifcool.hystorms.network.WeatherRetrofit
-import org.d3ifcool.hystorms.repository.AuthRepository
 import org.d3ifcool.hystorms.repository.auth.AuthenticationRepository
 import org.d3ifcool.hystorms.repository.device.DevicesRepositoryImpl
 import org.d3ifcool.hystorms.repository.home.HomeRepositoryImpl
@@ -33,16 +32,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-    @Singleton
-    @Provides
-    fun provideAuthRepository(
-        firebaseAuth: FirebaseAuth,
-        @UserReference userRef: CollectionReference,
-        storageReference: FirebaseStorage
-    ): AuthRepository {
-        return AuthRepository(firebaseAuth, userRef, storageReference)
-    }
-
     @Singleton
     @Provides
     fun provideAuthenticationRepository(

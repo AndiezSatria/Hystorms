@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.Nutrition
 import org.d3ifcool.hystorms.repository.encyclopedia.AddNutritionRepository
-import org.d3ifcool.hystorms.repository.encyclopedia.AddNutritionRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.ButtonUploadState
 import org.d3ifcool.hystorms.util.EspressoIdlingResource

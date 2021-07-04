@@ -1,10 +1,8 @@
 package org.d3ifcool.hystorms.ui.main.encyclopedia
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R

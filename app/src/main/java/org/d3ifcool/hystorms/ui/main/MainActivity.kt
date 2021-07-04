@@ -1,8 +1,7 @@
 package org.d3ifcool.hystorms.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.util.createChannel

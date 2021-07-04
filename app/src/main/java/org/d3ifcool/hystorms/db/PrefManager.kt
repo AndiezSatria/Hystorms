@@ -4,16 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class PrefManager(context: Context) {
-    private val preferences: SharedPreferences
-    private val editor: SharedPreferences.Editor
-
-    init {
-        preferences = context.getSharedPreferences(
-            PREFERENCE_NAME,
-            PRIVATE_MODE
-        )
-        editor = preferences.edit()
-    }
+    private val preferences: SharedPreferences = context.getSharedPreferences(
+        PREFERENCE_NAME,
+        PRIVATE_MODE
+    )
+    private val editor: SharedPreferences.Editor = preferences.edit()
 
     fun isFirstRun() = preferences.getBoolean(FIRST_TIME, true)
 

@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import org.d3ifcool.hystorms.R
-import org.d3ifcool.hystorms.notify.FCMService
 import org.d3ifcool.hystorms.ui.main.MainActivity
 
 private const val PENGUMUMAN_ID = 1

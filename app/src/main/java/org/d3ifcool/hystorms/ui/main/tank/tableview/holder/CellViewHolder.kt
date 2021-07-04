@@ -1,10 +1,9 @@
 package org.d3ifcool.hystorms.ui.main.tank.tableview.holder
 
-import org.d3ifcool.hystorms.R
 import android.view.Gravity
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
+import org.d3ifcool.hystorms.R
 import org.d3ifcool.hystorms.databinding.TableviewCellLayoutBinding
 import org.d3ifcool.hystorms.ui.main.tank.tableview.model.CellModel
 

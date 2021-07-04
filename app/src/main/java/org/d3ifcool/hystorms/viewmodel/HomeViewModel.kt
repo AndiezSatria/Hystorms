@@ -1,9 +1,6 @@
 package org.d3ifcool.hystorms.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -71,10 +68,6 @@ class HomeViewModel @Inject constructor(
     private val _isScheduleEmpty: MutableLiveData<Boolean> = MutableLiveData(false)
     val isScheduleEmpty: LiveData<Boolean>
         get() = _isScheduleEmpty
-
-    fun setIsScheduleEmpty(boolean: Boolean) {
-        _isScheduleEmpty.value = boolean
-    }
 
     private val _weatherViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
     val weatherViewState: LiveData<ViewState>

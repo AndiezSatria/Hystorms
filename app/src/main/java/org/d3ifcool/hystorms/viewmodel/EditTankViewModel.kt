@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.d3ifcool.hystorms.model.Nutrition
 import org.d3ifcool.hystorms.model.Tank
 import org.d3ifcool.hystorms.repository.tank.EditTankRepository
 import org.d3ifcool.hystorms.state.DataState

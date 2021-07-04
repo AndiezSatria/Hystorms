@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.*
 import org.d3ifcool.hystorms.repository.device.DetailDeviceRepository
-import org.d3ifcool.hystorms.repository.device.DetailDeviceRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState
@@ -24,7 +23,6 @@ class DetailDeviceViewModel @Inject constructor(
                         savedStateHandle.get<Device>("device")!!.id)
     )
     val isFavorite: LiveData<Boolean> = _isFavorite
-    fun setIsFavorite(boolean: Boolean) = boolean.let { _isFavorite.value = it }
 
     private val _device: MutableLiveData<Device> = savedStateHandle.getLiveData("device")
     val device: LiveData<Device>
@@ -77,10 +75,6 @@ class DetailDeviceViewModel @Inject constructor(
     private val _weatherViewState: MutableLiveData<ViewState> = MutableLiveData(ViewState.NOTHING)
     val weatherViewState: LiveData<ViewState>
         get() = _weatherViewState
-
-    fun setWeatherViewState(viewState: ViewState) {
-        _weatherViewState.value = viewState
-    }
 
 
     private val _weather: MutableLiveData<Weather> = MutableLiveData()

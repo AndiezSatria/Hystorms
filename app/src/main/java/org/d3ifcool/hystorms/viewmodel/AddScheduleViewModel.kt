@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.Nutrition
 import org.d3ifcool.hystorms.model.Schedule
 import org.d3ifcool.hystorms.repository.tank.AddScheduleRepository
-import org.d3ifcool.hystorms.repository.tank.AddScheduleRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState

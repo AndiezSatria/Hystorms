@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.extension.FirebaseExtension.await
-import org.d3ifcool.hystorms.extension.FirebaseExtension.awaitRealtime
 import org.d3ifcool.hystorms.model.Plant
 import org.d3ifcool.hystorms.model.Schedule
 import org.d3ifcool.hystorms.model.Tank

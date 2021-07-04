@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.d3ifcool.hystorms.constant.Action
 import org.d3ifcool.hystorms.extension.FirebaseExtension.await
-import org.d3ifcool.hystorms.extension.FirebaseExtension.awaitRealtime
 import org.d3ifcool.hystorms.model.History
 import org.d3ifcool.hystorms.state.DataState
 import java.util.*

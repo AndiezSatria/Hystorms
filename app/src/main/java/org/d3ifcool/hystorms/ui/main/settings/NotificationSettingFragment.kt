@@ -37,9 +37,8 @@ class NotificationSettingFragment : Fragment(R.layout.fragment_notification_sett
                     val startTime = Calendar.getInstance()
                     startTime.set(Calendar.HOUR_OF_DAY, 9)
                     startTime.set(Calendar.MINUTE, 30)
-                    alarmReceiver.setRepeatingTimeAlarm(
+                    alarmReceiver.setDailyAlarm(
                         requireContext(),
-                        ScheduleAlarmReceiver.INT_ID_REPEATING,
                         startTime,
                         "Jangan lupakan Hidroponikmu dengan menggunakan Hystorms!",
                         "Pengingat Harian Hystorms"

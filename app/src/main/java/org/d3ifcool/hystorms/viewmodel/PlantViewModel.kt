@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.Plant
 import org.d3ifcool.hystorms.repository.encyclopedia.EncyclopediaRepository
-import org.d3ifcool.hystorms.repository.encyclopedia.EncyclopediaRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState

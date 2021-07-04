@@ -8,8 +8,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.d3ifcool.hystorms.constant.Action
-import org.d3ifcool.hystorms.model.Device
 import org.d3ifcool.hystorms.model.QueryResponse
 import org.d3ifcool.hystorms.state.DataState
 import kotlin.coroutines.cancellation.CancellationException
@@ -36,22 +34,6 @@ object FirebaseExtension {
                 } else {
                     cont.resumeWithException(e)
                 }
-            }
-        }
-    }
-
-    @ExperimentalCoroutinesApi
-    suspend fun Query.asFlow(): Flow<QuerySnapshot> {
-        return callbackFlow {
-            val callback = addSnapshotListener { querySnapshot, ex ->
-                if (ex != null) {
-                    close(ex)
-                } else {
-                    trySend(querySnapshot!!)
-                }
-            }
-            awaitClose {
-                callback.remove()
             }
         }
     }

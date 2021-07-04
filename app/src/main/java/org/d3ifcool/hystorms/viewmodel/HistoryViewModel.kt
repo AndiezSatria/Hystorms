@@ -1,14 +1,12 @@
 package org.d3ifcool.hystorms.viewmodel
 
 import androidx.lifecycle.*
-import com.github.mikephil.charting.data.Entry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.d3ifcool.hystorms.model.History
 import org.d3ifcool.hystorms.repository.tank.HistoryRepository
-import org.d3ifcool.hystorms.repository.tank.HistoryRepositoryImpl
 import org.d3ifcool.hystorms.state.DataState
 import org.d3ifcool.hystorms.util.EspressoIdlingResource
 import org.d3ifcool.hystorms.util.ViewState

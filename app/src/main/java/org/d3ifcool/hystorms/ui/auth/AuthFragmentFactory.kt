@@ -2,7 +2,6 @@ package org.d3ifcool.hystorms.ui.auth
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import javax.inject.Inject
 
 class AuthFragmentFactory: FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
